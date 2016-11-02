@@ -24,13 +24,13 @@ int screenVerticalLimit (int y) {
   return y;
 }
 
-void OrbitOledMoveTo(int a, int b) {
-  printf("Move Cursor to:(%d, %d)\n", a, b);
-}
-
-void OrbitOledFillRect(int a, int b) {
-  printf("Draw to: (%d, %d)\n", a, b);
-}
+//void OrbitOledMoveTo(int a, int b) {
+//  printf("Move Cursor to:(%d, %d)\n", a, b);
+//}
+//
+//void OrbitOledFillRect(int a, int b) {
+//  printf("Draw to: (%d, %d)\n", a, b);
+//}
 
 void draw(tile *onScreen, int offset) {
   int row = 0;

@@ -25,19 +25,22 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly: 
-  OrbitOledClear();
-  draw(onscreen, offset);
+  OrbitOledMoveTo(1, 1);
+  OrbitOledDrawRect(20, 20);
   OrbitOledUpdate();
-  delay(5000);
-  onscreen = onscreen->prev;
-  offset += 5;
-  OrbitOledClear();
-  draw(onscreen, offset);
-  OrbitOledUpdate();
-  delay(5000);
-  offset += 5;
-  OrbitOledClear();
-  draw(onscreen, offset);
-  OrbitOledUpdate();
-  delay(5000);
+//  OrbitOledClear();
+//  draw(onscreen, offset);
+//  OrbitOledUpdate();
+//  delay(5000);
+//  onscreen = onscreen->prev;
+//  offset += 5;
+//  OrbitOledClear();
+//  draw(onscreen, offset);
+//  OrbitOledUpdate();
+//  delay(5000);
+//  offset += 5;
+//  OrbitOledClear();
+//  draw(onscreen, offset);
+//  OrbitOledUpdate();
+//  delay(5000);
 }
