@@ -42,15 +42,15 @@ void draw(tile *onScreen, int offset) {
     if ((SCREEN_HEIGHT - row * TILE_HEIGHT - TILE_HEIGHT_BORDER) < 0)
     break;
     for (int column = 0; column < sizeof(i->value)/sizeof(i->value[0]); column++) {
-      tileX = SCREEN_HEIGHT - row * TILE_HEIGHT - TILE_HEIGHT_BORDER;
+      tileX = SCREEN_HEIGHT - row * TILE_HEIGHT - TILE_HEIGHT_BORDER TILE_HEIGHT;
       tileY = column * TILE_WIDTH + TILE_WIDTH_BORDER;
       if (offset != 0)
         tileX += shift;
       tileX = screenVerticalLimit(tileX);
       OrbitOledMoveTo(tileX, tileY);
       if (i->value[column]) {
-        OrbitOledMoveTo(screenVerticalLimit(tileX - BARRICADE_BUFFER_X), tileY + BARRICADE_BUFFER_Y);
-        OrbitOledFillRect(screenVerticalLimit(tileX - TILE_WIDTH + BARRICADE_BUFFER_X), tileY + TILE_HEIGHT - BARRICADE_BUFFER_Y);
+        OrbitOledMoveTo(screenVerticalLimit(tileX - BARRICADE_BUFFER_X+ TILE_HEIGHT), tileY + BARRICADE_BUFFER_Y);
+        OrbitOledFillRect(screenVerticalLimit(tileX - TILE_WIDTH + BARRICADE_BUFFER_X + TILE_HEIGHT), tileY + TILE_HEIGHT - BARRICADE_BUFFER_Y);
       }
     }
     row++;
