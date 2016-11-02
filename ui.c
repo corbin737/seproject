@@ -54,10 +54,10 @@ void draw(tile *onScreen, int offset) {
     row++;
   }
 
-  //OrbitOledUpdate();
+  OrbitOledUpdate();
 }
 
-int main(void) {
+/*int main(void) {
   tile *test = tileCreate();
   test = trackPopTile(test);
   test = trackPopTile(test);
@@ -65,5 +65,5 @@ int main(void) {
   for (tile *i = test; i != NULL; i = i->next) {
       printf("%d\n", i->value[0]);
   }
-}
+}*/
 
