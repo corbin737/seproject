@@ -21,26 +21,22 @@ void setup() {
   }
   onscreen = head->next;
   offset = 0;
+  int counter = 0;
 }
 
 void loop() {
-  // put your main code here, to run repeatedly: 
-  OrbitOledMoveTo(1, 1);
-  OrbitOledDrawRect(20, 20);
-  OrbitOledUpdate();
-//  OrbitOledClear();
-//  draw(onscreen, offset);
-//  OrbitOledUpdate();
-//  delay(5000);
-//  onscreen = onscreen->prev;
-//  offset += 5;
-//  OrbitOledClear();
-//  draw(onscreen, offset);
-//  OrbitOledUpdate();
-//  delay(5000);
-//  offset += 5;
-//  OrbitOledClear();
-//  draw(onscreen, offset);
-//  OrbitOledUpdate();
-//  delay(5000);
+  if (offset >= 21) {
+  offset %= 21;
+  head = trackPushRandTile(head);
+  free(head->next->next->next->next->next->next->next);
+  }
+  if (offset == 1)
+  onscreen = onscreen->prev;
+  
+  OrbitOledClear();
+  draw(onscreen, offset);
+  delay(200);
+  offset++;
+
+
 }

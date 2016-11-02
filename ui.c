@@ -38,19 +38,19 @@ void draw(tile *onScreen, int offset) {
   int shift = TILE_HEIGHT - offset;
 
   ///iterates through on screen elements and draws them on screen
-  for (tile *i = onScreen; i != NULL && row < 7; i = i->next) {
+  for (tile *i = onScreen; i != NULL; i = i->next) {
     if ((SCREEN_HEIGHT - row * TILE_HEIGHT - TILE_HEIGHT_BORDER) < 0)
     break;
     for (int column = 0; column < sizeof(i->value)/sizeof(i->value[0]); column++) {
-      tileX = SCREEN_HEIGHT - row * TILE_HEIGHT - TILE_HEIGHT_BORDER TILE_HEIGHT;
+      tileX = SCREEN_HEIGHT - (row * TILE_HEIGHT) - TILE_HEIGHT - TILE_HEIGHT_BORDER;
       tileY = column * TILE_WIDTH + TILE_WIDTH_BORDER;
       if (offset != 0)
         tileX += shift;
-      tileX = screenVerticalLimit(tileX);
+      //tileX = screenVerticalLimit(tileX);
       OrbitOledMoveTo(tileX, tileY);
       if (i->value[column]) {
-        OrbitOledMoveTo(screenVerticalLimit(tileX - BARRICADE_BUFFER_X+ TILE_HEIGHT), tileY + BARRICADE_BUFFER_Y);
-        OrbitOledFillRect(screenVerticalLimit(tileX - TILE_WIDTH + BARRICADE_BUFFER_X + TILE_HEIGHT), tileY + TILE_HEIGHT - BARRICADE_BUFFER_Y);
+        OrbitOledMoveTo(tileX + BARRICADE_BUFFER_X, tileY + BARRICADE_BUFFER_Y);
+        OrbitOledFillRect(tileX + TILE_HEIGHT - BARRICADE_BUFFER_X, tileY + TILE_WIDTH - BARRICADE_BUFFER_Y);
       }
     }
     row++;
