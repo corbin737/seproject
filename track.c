@@ -2,7 +2,7 @@
 
 tile* getTile() {
     tile *t = malloc(sizeof(tile));
-    assert(t != NULL);
+//    assert(t != NULL);
     t->next = NULL;
     t->prev = NULL;
     for (int i = 0; i < NUMBER_OF_LANES; i++) {

@@ -1,6 +1,8 @@
 #include "ui.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <OrbitOled.h>
+#include <OrbitOledGrph.h>
 #include "track.h"
 
 #define TILE_WIDTH 10
