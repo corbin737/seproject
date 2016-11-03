@@ -28,14 +28,14 @@ void loop() {
   if (offset >= 21) {
   offset %= 21;
   head = trackPushRandTile(head);
-  free(head->next->next->next->next->next->next->next);
+  head = trackPopTile(head);
   }
   if (offset == 1)
   onscreen = onscreen->prev;
   
   OrbitOledClear();
   draw(onscreen, offset);
-  delay(200);
+  delay(1000 / 60);
   offset++;
 
 
