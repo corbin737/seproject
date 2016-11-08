@@ -89,7 +89,7 @@ tile* getTile() {
 }
 
 tile *trackCreate() {
-    srand((unsigned)time(NULL));
+    srand(millis());
     return NULL;
 }
 
