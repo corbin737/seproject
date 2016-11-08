@@ -34,12 +34,13 @@ void loop() {
   }
   if (offset == 1) {
     // Next tile has moved in on top of screen
-      onscreen = onscreen->prev;
+    onscreen = onscreen->prev;
   }
-  offset++;
 
   OrbitOledClear();
   draw(onscreen, offset);
   drawCar(test, 1);
-  delay(500);
+  delay(1000 / 30);
+    offset++;
+
 }
