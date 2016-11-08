@@ -8,7 +8,7 @@ extern "C"
 
 #include <stdlib.h>
 #include <stdbool.h>
-#include <assert.h>
+#include <time.h>
 #include "types.h"
 
 tile *trackCreate();
