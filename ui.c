@@ -5,16 +5,6 @@
 #include <OrbitOledGrph.h>
 #include "track.h"
 
-#define TILE_WIDTH 10
-#define TILE_WIDTH_BORDER 1
-#define TILE_HEIGHT 21
-#define TILE_HEIGHT_BORDER 1
-#define BARRICADE_WIDTH 8
-#define BARRICADE_HEIGHT 19
-#define BARRICADE_BUFFER_X (TILE_WIDTH-BARRICADE_WIDTH)/2
-#define BARRICADE_BUFFER_Y (TILE_HEIGHT-BARRICADE_HEIGHT)/2
-#define SCREEN_HEIGHT 127
-#define SCREEN_WIDTH 32
 
 int screenVerticalLimit (int y) {
   if (y > 127)
@@ -49,7 +39,12 @@ void draw(tile *onScreen, int offset) {
       //tileX = screenVerticalLimit(tileX);
       OrbitOledMoveTo(tileX, tileY);
       if (i->value[column]) {
-        OrbitOledMoveTo(tileX + BARRICADE_BUFFER_X, tileY + BARRICADE_BUFFER_Y);
+        OrbitOledMoveTo(tileX 
+        + BARRICADE_BUFFER_X
+        , 
+        tileY 
+        + BARRICADE_BUFFER_Y
+        );
         OrbitOledFillRect(tileX + TILE_HEIGHT - BARRICADE_BUFFER_X, tileY + TILE_WIDTH - BARRICADE_BUFFER_Y);
       }
     }

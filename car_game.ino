@@ -1,6 +1,7 @@
 #include "types.h"
 #include "track.h"
 #include "ui.h"
+#include "car.h"
 #include <OrbitOled.h>
 #include <OrbitOledGrph.h>
 #include <FillPat.h>
@@ -8,9 +9,11 @@
 tile *head;
 tile *onscreen;
 int offset;
+Car *test;
 
 void setup() {
   // put your setup code here, to run once:
+
   OrbitOledInit();
   OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
   OrbitOledSetDrawMode(modOledSet);
@@ -33,9 +36,10 @@ void loop() {
   if (offset == 1)
   onscreen = onscreen->prev;
   
-  OrbitOledClear();
+  OrbitOledClear();;
   draw(onscreen, offset);
-  delay(200);
+    drawCar(test, 1);
+  delay(500);
   offset++;
 
 
