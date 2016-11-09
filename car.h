@@ -6,13 +6,7 @@ extern "C"
 {
 #endif
 
-typedef struct {
-  int x;
-  int y;
-  int radius;
-} Car; 
-
-void drawCar(Car *c, int lane);
+void drawCar(int lane);
 
 #ifdef __cplusplus
 }
