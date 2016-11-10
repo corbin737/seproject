@@ -1,6 +1,12 @@
 #include "track.h"
 
-void setTileValue(bool val[NUMBER_OF_LANES]) {
+typedef enum {
+  Random,
+  Blank,
+  Full
+} TileCreateType;
+
+void setRandomTileValue(bool val[NUMBER_OF_LANES]) {
     // Requires that NUMBER_OF_LANES == 3
     // Otherwise, changes to logic must be made
     static bool isExit[NUMBER_OF_LANES] = {true, true, true};
@@ -75,31 +81,44 @@ void setTileValue(bool val[NUMBER_OF_LANES]) {
     }
 }
 
-tile* trackPushTile(tile* oldHead, bool isRandom) {
+tile* trackPushTile(tile* oldHead, TileCreateType createType) {
     tile *newHead = malloc(sizeof(tile));
     newHead->next = oldHead;
     newHead->prev = NULL;
+    if (oldHead) {
+      oldHead->prev = newHead;
+    }
     for (int i = 0; i < NUMBER_OF_LANES; i++) {
       newHead->value[i] = false;
     }
 
-    if (isRandom) {
-      setTileValue(newHead->value);
-    }
-
-    if (oldHead) {
-      oldHead->prev = newHead;
+    switch(createType) {
+    case Random:
+      setRandomTileValue(newHead->value);
+      break;
+    case Blank:
+      // Leave as all false
+      break;
+    case Full:
+      for (int i = 0; i < NUMBER_OF_LANES; i++) {
+        newHead->value[i] = true;
+      }
+      break;
     }
 
     return newHead;
 }
 
 tile *trackPushRandTile(tile *oldHead) {
-    return trackPushTile(oldHead, true);
+    return trackPushTile(oldHead, Random);
 }
 
 tile *trackPushBlankTile(tile *oldHead) {
-  return trackPushTile(oldHead, false);
+  return trackPushTile(oldHead, Blank);
+}
+
+tile *trackPushFullTile(tile *oldHead) {
+  return trackPushTile(oldHead, Full);
 }
 
 tile *trackCreate() {

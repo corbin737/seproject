@@ -12,4 +12,9 @@ struct tile {
 };
 typedef struct tile tile;
 
+typedef struct {
+  int leftBtn;
+  int rightBtn;
+} state;
+
 #endif

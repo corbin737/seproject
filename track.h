@@ -14,6 +14,7 @@ extern "C"
 tile *trackCreate();
 tile *trackPushRandTile(tile *head);
 tile *trackPushBlankTile(tile *head);
+tile *trackPushFullTile(tile *head);
 tile *trackPopTile(tile *head);
 tile *trackDelete(tile *head);
 
