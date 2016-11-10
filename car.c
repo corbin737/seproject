@@ -1,10 +1,6 @@
 #include "car.h"
 #include "ui.h"
 
-#define middleX TILE_WIDTH/2
-#define middleY TILE_HEIGHT/2
-#define CAR_RADIUS 5
-
 void drawCar(int lane) {
   int x = middleY + TILE_HEIGHT_BORDER;
   int y = lane*TILE_WIDTH + middleX + TILE_WIDTH_BORDER;

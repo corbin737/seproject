@@ -41,6 +41,6 @@ void loop() {
   draw(onscreen, offset);
   drawCar(1);
   delay(1000 / 30);
-   offset++;
+  offset++;
 
 }

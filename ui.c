@@ -14,14 +14,6 @@ int screenVerticalLimit (int y) {
   return y;
 }
 
-//void OrbitOledMoveTo(int a, int b) {
-//  printf("Move Cursor to:(%d, %d)\n", a, b);
-//}
-//
-//void OrbitOledFillRect(int a, int b) {
-//  printf("Draw to: (%d, %d)\n", a, b);
-//}
-
 void draw(tile *onScreen, int offset) {
   int row = 0;
   int tileX, tileY;
@@ -29,7 +21,7 @@ void draw(tile *onScreen, int offset) {
 
   ///iterates through on screen elements and draws them on screen
   for (tile *i = onScreen; i != NULL; i = i->next) {
-    if ((SCREEN_HEIGHT - row * TILE_HEIGHT - TILE_HEIGHT_BORDER) < 0)
+    if ((SCREEN_HEIGHT - row * TILE_HEIGHT - TILE_HEIGHT_BORDER) < 0) //exits if the tile is outside the leftmost screen
     break;
     for (int column = 0; column < sizeof(i->value)/sizeof(i->value[0]); column++) {
       tileX = SCREEN_HEIGHT - (row * TILE_HEIGHT) - TILE_HEIGHT - TILE_HEIGHT_BORDER;
@@ -54,13 +46,4 @@ void draw(tile *onScreen, int offset) {
   OrbitOledUpdate();
 }
 
-/*int main(void) {
-  tile *test = tileCreate();
-  test = trackPopTile(test);
-  test = trackPopTile(test);
-
-  for (tile *i = test; i != NULL; i = i->next) {
-      printf("%d\n", i->value[0]);
-  }
-}*/
 
