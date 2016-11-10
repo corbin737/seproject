@@ -1,3 +1,4 @@
+#include <OrbitBoosterPackDefs.h>
 #include "car.h"
 #include "ui.h"
 
@@ -12,6 +13,35 @@ void drawCar(Car *c, int lane) {
   OrbitOledUpdate();
 
 }
+
+int updateCarLane(int newLeftState, int newRightState) {
+  static int oldLeftState = LOW;
+  static int oldRightState = LOW;
+  static int lane = 1;
+
+  if (newLeftState == HIGH && oldLeftState == LOW) {
+    oldLeftState = newLeftState;
+    oldRightState = newRightState;
+    // Move left
+    lane--;
+    if (lane < 0) lane = 0;
+    return lane;
+  }
+  if (newRightState == HIGH && oldRightState == LOW) {
+    oldLeftState = newLeftState;
+    oldRightState = newRightState;
+    // Move right
+    lane++;
+    if (lane > 2) lane = 2;
+    return lane;
+  }
+
+  // No lane moving necessary
+  oldLeftState = newLeftState;
+  oldRightState = newRightState;
+  return lane;
+}
+
 
 int findSwitch (int r) {
   int x0 = 0;

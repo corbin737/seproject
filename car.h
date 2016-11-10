@@ -13,6 +13,7 @@ typedef struct {
 } Car; 
 
 void drawCar(Car *c, int lane);
+int updateCarLane(int leftBtnState, int rightBtnState);
 
 #ifdef __cplusplus
 }
