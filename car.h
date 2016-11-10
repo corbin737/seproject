@@ -6,17 +6,15 @@ extern "C"
 {
 #endif
 
-typedef struct {
-  int x;
-  int y;
-  int radius;
-} Car; 
+#define middleX TILE_WIDTH/2
+#define middleY TILE_HEIGHT/2
+#define CAR_RADIUS 3
 
-void drawCar(Car *c, int lane);
+void drawCar(int lane);
 int updateCarLane(int leftBtnState, int rightBtnState);
 
 #ifdef __cplusplus
 }
 #endif
-  
+
 #endif

@@ -10,7 +10,7 @@
 tile *head;
 tile *onscreen;
 int offset;
-Car *test;
+
 
 const int leftBtnPin = PE_0;
 const int rightBtnPin = PD_2;
@@ -24,7 +24,7 @@ void setup() {
   OrbitOledSetDrawMode(modOledSet);
 
 
-  pinMode(leftBtnPin, INPUT); 
+  pinMode(leftBtnPin, INPUT);
   pinMode(rightBtnPin, INPUT);
 
 
@@ -38,7 +38,7 @@ void setup() {
 }
 
 void loop() {
-  
+
   // Update track model
   if (offset >= 21) {
     // Bottom tile has moved off screen entirely
@@ -58,7 +58,7 @@ void loop() {
 
   OrbitOledClear();
   draw(onscreen, offset);
-  drawCar(test, lane);
+  drawCar(lane);
   delay(1000 / 30);
   offset++;
 }
