@@ -75,31 +75,36 @@ void setTileValue(bool val[NUMBER_OF_LANES]) {
     }
 }
 
-tile* getTile() {
-    tile *t = malloc(sizeof(tile));
-    t->next = NULL;
-    t->prev = NULL;
+tile* trackPushTile(tile* oldHead, bool isRandom) {
+    tile *newHead = malloc(sizeof(tile));
+    newHead->next = oldHead;
+    newHead->prev = NULL;
     for (int i = 0; i < NUMBER_OF_LANES; i++) {
-        t->value[i] = false;
+      newHead->value[i] = false;
     }
 
-    setTileValue(t->value);
+    if (isRandom) {
+      setTileValue(newHead->value);
+    }
 
-    return t;
+    if (oldHead) {
+      oldHead->prev = newHead;
+    }
+
+    return newHead;
+}
+
+tile *trackPushRandTile(tile *oldHead) {
+    return trackPushTile(oldHead, true);
+}
+
+tile *trackPushBlankTile(tile *oldHead) {
+  return trackPushTile(oldHead, false);
 }
 
 tile *trackCreate() {
     srand(millis());
     return NULL;
-}
-
-tile *trackPushRandTile(tile *oldHead) {
-    tile *newHead = getTile();
-    newHead->next = oldHead;
-    if (oldHead) {
-        oldHead->prev = newHead;
-    }
-    return newHead;
 }
 
 tile *trackPopTile(tile *head) {

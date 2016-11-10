@@ -31,7 +31,7 @@ void setup() {
   // Populate first tiles visible on screen
   head = trackCreate();
   for (int i = 0; i < 7; i++) {
-      head = trackPushRandTile(head);
+      head = trackPushBlankTile(head);
   }
   onscreen = head->next;
   offset = 0;
