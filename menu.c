@@ -9,15 +9,17 @@ tile *onscreen;
 int offset;
 int lane;
 
+int gameOverHeight;
+
 static enum MenuPage
 {
   Start = 0,
   Game = 1,
   GameOver = 2
-} menuPage = Start;
+} menuPage = GameOver;
 
 void menuInit() {
-  startInit();
+  gameOverInit();
 }
 
 void menuLoop(state hardwareState) {
@@ -35,9 +37,33 @@ void menuLoop(state hardwareState) {
     carLoop(leftBtnState, rightBtnState);
     delayInMillis = 1000 / 30;
     break;
+  case GameOver:
+    gameOverLoop();
+    delayInMillis = 1000 / 50;
+    break;
   }
 
   delay(delayInMillis);
+}
+
+void gameOverLoop() {
+  if (gameOverHeight > SCREEN_HEIGHT) {
+    startInit();
+    menuPage = Start;
+    delay(3000);
+  }
+
+  OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
+  OrbitOledSetDrawMode(modOledSet);
+  OrbitOledMoveTo(SCREEN_HEIGHT - gameOverHeight, 0);
+  OrbitOledLineTo(SCREEN_HEIGHT - gameOverHeight, SCREEN_HEIGHT);
+  OrbitOledUpdate();
+  gameOverHeight++;
+
+}
+
+void gameOverInit() {
+  gameOverHeight = 0;
 }
 
 void carLoop(int leftBtnState, int rightBtnState) {
