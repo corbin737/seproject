@@ -2,16 +2,21 @@
 #include "car.h"
 #include "ui.h"
 
+
 void drawCar(int lane) {
   int x = middleY + TILE_HEIGHT_BORDER;
   int y = lane*TILE_WIDTH + middleX + TILE_WIDTH_BORDER;
 
-    drawFillCircle(x, y, CAR_RADIUS);
+  drawFillCircle(x, y, CAR_RADIUS);
   
   OrbitOledUpdate();
-  
-  
+}
 
+void getCar(int *x, int *y, int lane) {
+  *x = middleY + TILE_HEIGHT_BORDER;
+  *y = lane*TILE_WIDTH + middleX + TILE_WIDTH_BORDER;
+
+  
 }
 
 int updateCarLane(int newLeftState, int newRightState) {
@@ -120,8 +125,7 @@ void drawCircle(int x, int y, int r) {
 }
 
 
-void drawFillCircle(int x, int y, int r) {
-  
+int drawFillCircle(int x, int y, int r) {
   int turn = findSwitch(r);
   int x0 = -1*turn;
   int y0 = -1*r;
@@ -175,6 +179,7 @@ void drawFillCircle(int x, int y, int r) {
   OrbitOledMoveTo(x, y);
   OrbitOledDrawPixel();
   drawCircle(x, y, r-1);
+ 
 }
 
 

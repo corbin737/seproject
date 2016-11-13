@@ -2,6 +2,7 @@
 #include "track.h"
 #include "ui.h"
 #include "car.h"
+#include "collision.h"
 #include <OrbitBoosterPackDefs.h>
 #include <OrbitOled.h>
 #include <OrbitOledGrph.h>
@@ -17,6 +18,8 @@ const int rightBtnPin = PD_2;
 int leftBtnState;
 int rightBtnState;
 int lane;
+
+int a = 0;
 
 void setup() {
   OrbitOledInit();
@@ -35,6 +38,8 @@ void setup() {
   }
   onscreen = head->next;
   offset = 0;
+
+  Serial.begin(9600);
 }
 
 void loop() {
@@ -58,7 +63,14 @@ void loop() {
 
   OrbitOledClear();
   draw(onscreen, offset);
+  
+  if (checkCollision(lane) == 0) {
+    a++;
+    Serial.print(a);
+    Serial.print("rip\n");
+  }
   drawCar(lane);
-  delay(1000 / 30);
+  delay(1000/50);
   offset++;
+  
 }

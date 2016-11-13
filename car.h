@@ -13,6 +13,9 @@ extern "C"
 void drawCar(int lane);
 int updateCarLane(int leftBtnState, int rightBtnState);
 
+void getCar(int *x, int *y, int lane);
+
+
 #ifdef __cplusplus
 }
 #endif

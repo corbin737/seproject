@@ -15,12 +15,14 @@ extern "C"
 #define TILE_HEIGHT_BORDER 1
 #define BARRICADE_WIDTH 4
 #define BARRICADE_HEIGHT 17
-#define BARRICADE_BUFFER_X (TILE_WIDTH-BARRICADE_WIDTH)/2
-#define BARRICADE_BUFFER_Y (TILE_HEIGHT-BARRICADE_HEIGHT)/2
+#define BARRICADE_BUFFER_X (TILE_HEIGHT-BARRICADE_HEIGHT)/2
+#define BARRICADE_BUFFER_Y (TILE_WIDTH-BARRICADE_WIDTH)/2
 #define SCREEN_HEIGHT 127
 #define SCREEN_WIDTH 32
 
 #include "types.h"
+
+tile *getLastTile(tile *onScreen, int offset);
 
 void draw(tile *onScreen, int offset);
 
