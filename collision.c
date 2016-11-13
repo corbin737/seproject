@@ -14,10 +14,10 @@ int checkCollision (int lane) {
   for (int i = y; i < y+TILE_WIDTH; i++) {
     OrbitOledMoveTo(x, i);
     if (OrbitOledGetPixel() == 1) {
-      return 0;
+      return 1;
     }
   }
-  return 1;
+  return 0;
 }
 
 

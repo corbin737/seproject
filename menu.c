@@ -1,8 +1,10 @@
 #include "menu.h"
+#include "collision.h"
 
 #include <OrbitOled.h>
 #include <OrbitOledGrph.h>
 #include <FillPat.h>
+
 
 tile *head;
 tile *onscreen;
@@ -16,10 +18,10 @@ static enum MenuPage
   Start = 0,
   Game = 1,
   GameOver = 2
-} menuPage = GameOver;
+} menuPage = Start;
 
 void menuInit() {
-  gameOverInit();
+  startInit();
 }
 
 void menuLoop(state hardwareState) {
@@ -34,8 +36,12 @@ void menuLoop(state hardwareState) {
     break;
   case Game:
     trackLoopWithPushFunc(trackPushRandTile);
+    if (checkCollision(lane) == 1) {
+      menuPage = GameOver;
+      gameOverInit();
+    }
     carLoop(leftBtnState, rightBtnState);
-    delayInMillis = 1000 / 30;
+    delayInMillis = 1000 / 40;
     break;
   case GameOver:
     gameOverLoop();
