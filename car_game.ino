@@ -1,8 +1,16 @@
+/*******************************************************************************************
+ * Program: car_game.ino
+ * Author: Corbin Mcelhinney, Kalvin Thye
+ * Description: Main program
+ *******************************************************************************************/
+
 #include "types.h"
 #include "track.h"
 #include "ui.h"
 #include "car.h"
 #include "menu.h"
+#include "collision.h"
+#include <OrbitBoosterPackDefs.h>
 #include <OrbitOled.h>
 #include <OrbitOledGrph.h>
 #include <FillPat.h>
@@ -16,7 +24,7 @@ void setup() {
   OrbitOledInit();
   OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
   OrbitOledSetDrawMode(modOledSet);
-  
+
   pinMode(leftBtnPin, INPUT);
   pinMode(rightBtnPin, INPUT);
 
