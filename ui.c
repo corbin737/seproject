@@ -6,13 +6,6 @@
 #include "track.h"
 
 
-int screenVerticalLimit (int y) {
-  if (y > 127)
-    y = 127;
-  else if (y < 0)
-    y = TILE_HEIGHT_BORDER;
-  return y;
-}
 
 tile *getLastTile(tile *onScreen, int offset) {
   if (offset == 0) {
@@ -51,4 +44,11 @@ void draw(tile *onScreen, int offset) {
   OrbitOledUpdate();
 }
 
+//int screenVerticalLimit (int y) {
+//  if (y > 127)
+//    y = 127;
+//  else if (y < 0)
+//    y = TILE_HEIGHT_BORDER;
+//  return y;
+//}
 

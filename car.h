@@ -1,3 +1,9 @@
+/*******************************************************************************************
+ * Program: car.h
+ * Author: Corbin Mcelhinney, Kalvin Thye
+ * Description: Header file that contains methods involving the car
+ *******************************************************************************************/
+
 #ifndef CAR_H
 #define CAR_H
 
@@ -10,11 +16,10 @@ extern "C"
 #define middleY TILE_HEIGHT/2
 #define CAR_RADIUS 3
 
+void getCarPos(int *x, int *y, int lane);
+
 void drawCar(int lane);
 int updateCarLane(int leftBtnState, int rightBtnState);
-
-void getCar(int *x, int *y, int lane);
-
 
 #ifdef __cplusplus
 }

@@ -1,3 +1,9 @@
+/*******************************************************************************************
+ * Program: collision.c
+ * Author: Corbin Mcelhinney, Kalvin Thye
+ * Description: Contains methods that detects collisions
+ *******************************************************************************************/
+ 
 #include "car.h"
 #include "ui.h"
 

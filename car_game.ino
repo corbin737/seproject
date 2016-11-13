@@ -1,3 +1,9 @@
+/*******************************************************************************************
+ * Program: car_game.ino
+ * Author: Corbin Mcelhinney, Kalvin Thye
+ * Description: Main program 
+ *******************************************************************************************/
+
 #include "types.h"
 #include "track.h"
 #include "ui.h"
@@ -18,8 +24,6 @@ const int rightBtnPin = PD_2;
 int leftBtnState;
 int rightBtnState;
 int lane;
-
-int a = 0;
 
 void setup() {
   OrbitOledInit();
@@ -43,7 +47,6 @@ void setup() {
 }
 
 void loop() {
-
   // Update track model
   if (offset >= 21) {
     // Bottom tile has moved off screen entirely
@@ -61,16 +64,12 @@ void loop() {
   rightBtnState = digitalRead(rightBtnPin);
   lane = updateCarLane(leftBtnState, rightBtnState);
 
+  //Clear screen and draw updated models
   OrbitOledClear();
   draw(onscreen, offset);
-  
-  if (checkCollision(lane) == 0) {
-    a++;
-    Serial.print(a);
-    Serial.print("rip\n");
-  }
   drawCar(lane);
-  delay(1000/50);
+  
+  delay(1000/30);
   offset++;
   
 }
