@@ -25,6 +25,7 @@ int leftBtnState;
 int rightBtnState;
 int lane;
 
+int a = 0;
 void setup() {
   OrbitOledInit();
   OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
@@ -67,6 +68,11 @@ void loop() {
   //Clear screen and draw updated models
   OrbitOledClear();
   draw(onscreen, offset);
+  if (checkCollision(lane) == 1) {
+    a++;
+    Serial.print(a);
+    Serial.print("\n");
+  }
   drawCar(lane);
   
   delay(1000/30);
