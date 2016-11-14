@@ -17,6 +17,8 @@
 
 const int leftBtnPin = PE_0;
 const int rightBtnPin = PD_2;
+const int bottomSwitchPin = PA_6;
+const int topSwitchPin = PA_7;
 
 state hardwareState;
 
@@ -27,6 +29,8 @@ void setup() {
 
   pinMode(leftBtnPin, INPUT);
   pinMode(rightBtnPin, INPUT);
+  pinMode(bottomSwitchPin, INPUT);
+  pinMode(topSwitchPin, INPUT);
 
   menuInit();
 }
@@ -34,5 +38,7 @@ void setup() {
 void loop() {
   hardwareState.leftBtn = digitalRead(leftBtnPin);
   hardwareState.rightBtn = digitalRead(rightBtnPin);
+  hardwareState.bottomSwitch = digitalRead(bottomSwitchPin);
+  hardwareState.topSwitch = digitalRead(topSwitchPin);
   menuLoop(hardwareState);
 }

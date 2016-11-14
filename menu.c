@@ -1,6 +1,7 @@
 #include "menu.h"
 #include "collision.h"
 
+#include <math.h>
 #include <OrbitOled.h>
 #include <OrbitOledGrph.h>
 #include <FillPat.h>
@@ -10,6 +11,7 @@ tile *head;
 tile *onscreen;
 int offset;
 int lane;
+int fpks;
 
 int gameOverHeight;
 
@@ -25,31 +27,34 @@ void menuInit() {
 }
 
 void menuLoop(state hardwareState) {
-  int delayInMillis;
   int leftBtnState = hardwareState.leftBtn;
   int rightBtnState = hardwareState.rightBtn;
+  int bottomSwitchState = hardwareState.bottomSwitch;
+  int topSwitchState = hardwareState.topSwitch;
   switch(menuPage) {
   case Start:
     trackLoopWithPushFunc(trackPushFullTile);
+    fpks = 8000;
     startLoop(leftBtnState, rightBtnState);
-    delayInMillis = 1000 / 8;
     break;
   case Game:
+    if (bottomSwitchState == HIGH) break;
     trackLoopWithPushFunc(trackPushRandTile);
     if (checkCollision(lane) == 1) {
       menuPage = GameOver;
       gameOverInit();
     }
+    fpks += 50;
+    if (topSwitchState == HIGH) fpks += 100;
     carLoop(leftBtnState, rightBtnState);
-    delayInMillis = 1000 / 40;
     break;
   case GameOver:
     gameOverLoop();
-    delayInMillis = 1000 / 50;
+    fpks = 50000;
     break;
   }
 
-  delay(delayInMillis);
+  delay(1000000 / fpks);
 }
 
 void gameOverLoop() {
@@ -123,6 +128,7 @@ void trackInit() {
   }
   onscreen = head->next;
   offset = 0;
+  fpks = 40000;
 }
 
 void trackLoopWithPushFunc(tile *(*pushTile)(tile *)) {

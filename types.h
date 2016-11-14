@@ -15,6 +15,8 @@ typedef struct tile tile;
 typedef struct {
   int leftBtn;
   int rightBtn;
+  int bottomSwitch;
+  int topSwitch;
 } state;
 
 #endif
