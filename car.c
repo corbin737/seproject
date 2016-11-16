@@ -8,6 +8,10 @@
 #include "car.h"
 #include "track.h"
 
+const int middleX = TILE_WIDTH / 2;
+const int middleY = TILE_HEIGHT / 2;
+const int carRadius = 3;
+
 //Access method that returns the coordinates of car
 void getCarPos(int *x, int *y, int lane) {
   *x = middleY + TILE_HEIGHT_BORDER;
@@ -19,8 +23,8 @@ void drawCar(int lane) {
   int x = middleY + TILE_HEIGHT_BORDER;
   int y = lane*TILE_WIDTH + middleX + TILE_WIDTH_BORDER;
 
-  drawFillCircle(x, y, CAR_RADIUS);
-  
+  drawFillCircle(x, y, carRadius);
+
   OrbitOledUpdate();
 }
 
@@ -67,19 +71,19 @@ int checkCollision (int lane) {
 
 
 /*******************************************************************************************/
-//Helper Functions: 
+//Helper Functions:
 void drawCircle(int x, int y, int r) {
-  
+
   int turn = findSwitch(r);
   int x0 = -1*turn;
   int y0 = -1*r;
   int d = 2*(x0+1)*(x0+1)+ y0*y0 + (y0+1)*(y0+1) - 2*r*r;
-  
+
   for (int i = 0 ; i <r*r*r; i++) {
     OrbitOledMoveTo(x0+ x, y0+ y);
     OrbitOledDrawPixel();
- 
-    
+
+
     if (-1*turn-1 < x0 && x0 < r &&  -1*r <=  y0 && y0 < -1*turn) { ///first quadrant
       d = 2*(x0+1)*(x0+1)+ y0*y0 + (y0+1)*(y0+1) - 2*r*r;
       if (d <= 0) {
@@ -89,7 +93,7 @@ void drawCircle(int x, int y, int r) {
         x0++;
         y0++;
       }
-        
+
       } else if (0 <= x0 && x0 <= r  && (-1*turn-1 <= y0) && y0 < r) {
         d = x0*x0+ (x0-1)*(x0-1)+ 2*(y0+1)*(y0+1) - 2*r*r;
         if (d <= 0) {
@@ -129,11 +133,11 @@ int drawFillCircle(int x, int y, int r) {
   int x0 = -1*turn;
   int y0 = -1*r;
   int d = 2*(x0+1)*(x0+1)+ y0*y0 + (y0+1)*(y0+1) - 2*r*r;
-  
+
   for (int i = 0 ; i <r*r*r; i++) {
     OrbitOledMoveTo(x0+ x, y0+ y);
     OrbitOledLineTo(x,y);
-    
+
     if (-1*turn-1 < x0 && x0 < r &&  -1*r <=  y0 && y0 < -1*turn) { ///first quadrant
       d = 2*(x0+1)*(x0+1)+ y0*y0 + (y0+1)*(y0+1) - 2*r*r;
       if (d <= 0) {
@@ -143,7 +147,7 @@ int drawFillCircle(int x, int y, int r) {
         x0++;
         y0++;
       }
-        
+
       } else if (0 <= x0 && x0 <= r  && (-1*turn-1 <= y0) && y0 < r) {
         d = x0*x0+ (x0-1)*(x0-1)+ 2*(y0+1)*(y0+1) - 2*r*r;
         if (d <= 0) {
@@ -178,7 +182,7 @@ int drawFillCircle(int x, int y, int r) {
   OrbitOledMoveTo(x, y);
   OrbitOledDrawPixel();
   drawCircle(x, y, r-1);
- 
+
 }
 
 int findSwitch (int r) {
@@ -187,7 +191,7 @@ int findSwitch (int r) {
   int d = 2*(x0+1)*(x0+1)+ y0*y0 + (y0+1)*(y0+1) - 2*r*r;
 
   while (y0 == -1*r) {
-    if (0 <= x0 && x0 < r &&  -1*r <=  y0 && y0 <= 0) { 
+    if (0 <= x0 && x0 < r &&  -1*r <=  y0 && y0 <= 0) {
         if (d <= 0) {
           x0++;
           y0=y0;

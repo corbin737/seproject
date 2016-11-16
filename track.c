@@ -1,5 +1,12 @@
 #include "track.h"
 
+
+#define TILE_WIDTH_BORDER 1
+#define TILE_HEIGHT_BORDER 1
+#define BARRICADE_WIDTH 4
+#define BARRICADE_HEIGHT 17
+#define BARRICADE_BUFFER_X (TILE_HEIGHT-BARRICADE_HEIGHT)/2
+#define BARRICADE_BUFFER_Y (TILE_WIDTH-BARRICADE_WIDTH)/2
 typedef enum {
   Random,
   Blank,

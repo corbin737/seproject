@@ -10,11 +10,9 @@ extern "C"
 #define SCREEN_WIDTH 32
 #define NUMBER_OF_LANES 3
 #define NUMBER_OF_TILES 6
-
-// Track UI
 #define TILE_WIDTH 10
-#define TILE_WIDTH_BORDER 1
 #define TILE_HEIGHT 21
+#define TILE_WIDTH_BORDER 1
 #define TILE_HEIGHT_BORDER 1
 #define BARRICADE_WIDTH 4
 #define BARRICADE_HEIGHT 17
