@@ -9,10 +9,16 @@ extern "C"
 #include <OrbitOled.h>
 #include <OrbitBoosterPackDefs.h>
 
-#include "types.h"
 #include "track.h"
-#include "ui.h"
 #include "car.h"
+#include "defs.h"
+
+typedef struct {
+  int leftBtn;
+  int rightBtn;
+  int bottomSwitch;
+  int topSwitch;
+} state;
 
 void vcInit();
 void vcLoop(state hardwareState);

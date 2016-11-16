@@ -53,6 +53,19 @@ int updateCarLane(int newLeftState, int newRightState) {
   return lane;
 }
 
+int checkCollision (int lane) {
+  int x = middleY + TILE_HEIGHT_BORDER;
+  int y = lane*TILE_WIDTH + TILE_WIDTH_BORDER;
+  for (int i = y; i < y+TILE_WIDTH; i++) {
+    OrbitOledMoveTo(x, i);
+    if (OrbitOledGetPixel() == 1) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
+
 /*******************************************************************************************/
 //Helper Functions: 
 void drawCircle(int x, int y, int r) {

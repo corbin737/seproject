@@ -4,12 +4,10 @@
  * Description: Main program
  *******************************************************************************************/
 
-#include "types.h"
 #include "track.h"
-#include "ui.h"
 #include "car.h"
 #include "vc.h"
-#include "collision.h"
+#include "defs.h"
 #include <OrbitBoosterPackDefs.h>
 #include <OrbitOled.h>
 #include <OrbitOledGrph.h>

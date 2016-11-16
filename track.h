@@ -8,8 +8,14 @@ extern "C"
 
 #include <stdlib.h>
 #include <stdbool.h>
-#include "ui.h"
-#include "types.h"
+
+#include "defs.h"
+struct tile {
+  struct tile *prev;
+  struct tile *next;
+  bool value[NUMBER_OF_LANES];
+};
+typedef struct tile tile;
 
 tile *trackCreate();
 tile *trackPushRandTile(tile *head);
