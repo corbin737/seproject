@@ -5,7 +5,7 @@
  *******************************************************************************************/
  
 #include "car.h"
-#include "ui.h"
+#include "track.h"
 
 #ifndef COLLISION_H
 #define COLLISION_H

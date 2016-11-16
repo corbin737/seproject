@@ -1,7 +1,7 @@
 
 
-#ifndef UI_H
-#define UI_H
+#ifndef TRACK_UI_H
+#define TRACK_UI_H
 
 #ifdef __cplusplus
 extern "C"
@@ -21,10 +21,6 @@ extern "C"
 #define SCREEN_WIDTH 32
 
 #include "types.h"
-
-tile *getLastTile(tile *onScreen, int offset);
-
-void draw(tile *onScreen, int offset);
 
 #ifdef __cplusplus
 }

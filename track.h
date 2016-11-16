@@ -8,7 +8,7 @@ extern "C"
 
 #include <stdlib.h>
 #include <stdbool.h>
-#include <time.h>
+#include "ui.h"
 #include "types.h"
 
 tile *trackCreate();
@@ -17,6 +17,8 @@ tile *trackPushBlankTile(tile *head);
 tile *trackPushFullTile(tile *head);
 tile *trackPopTile(tile *head);
 tile *trackDelete(tile *head);
+
+void drawTrack(tile *onScreen, int offset);
 
 #ifdef __cplusplus
 }

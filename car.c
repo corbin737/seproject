@@ -6,7 +6,7 @@
 
 #include <OrbitBoosterPackDefs.h>
 #include "car.h"
-#include "ui.h"
+#include "track.h"
 
 //Access method that returns the coordinates of car
 void getCarPos(int *x, int *y, int lane) {

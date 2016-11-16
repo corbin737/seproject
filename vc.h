@@ -1,5 +1,5 @@
-#ifndef MENU_H
-#define MENU_H
+#ifndef VC_H
+#define VC_H
 
 #ifdef __cplusplus
 extern "C"
@@ -14,8 +14,8 @@ extern "C"
 #include "ui.h"
 #include "car.h"
 
-void menuInit();
-void menuLoop(state hardwareState);
+void vcInit();
+void vcLoop(state hardwareState);
 
 #ifdef __cplusplus
 }

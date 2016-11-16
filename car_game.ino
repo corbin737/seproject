@@ -8,7 +8,7 @@
 #include "track.h"
 #include "ui.h"
 #include "car.h"
-#include "menu.h"
+#include "vc.h"
 #include "collision.h"
 #include <OrbitBoosterPackDefs.h>
 #include <OrbitOled.h>
@@ -32,7 +32,7 @@ void setup() {
   pinMode(bottomSwitchPin, INPUT);
   pinMode(topSwitchPin, INPUT);
 
-  menuInit();
+  vcInit();
 }
 
 void loop() {
@@ -40,5 +40,5 @@ void loop() {
   hardwareState.rightBtn = digitalRead(rightBtnPin);
   hardwareState.bottomSwitch = digitalRead(bottomSwitchPin);
   hardwareState.topSwitch = digitalRead(topSwitchPin);
-  menuLoop(hardwareState);
+  vcLoop(hardwareState);
 }

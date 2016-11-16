@@ -1,4 +1,4 @@
-#include "menu.h"
+#include "vc.h"
 #include "collision.h"
 
 #include <math.h>
@@ -15,23 +15,23 @@ int fpks;
 
 int gameOverHeight;
 
-static enum MenuPage
+static enum View
 {
   Start = 0,
   Game = 1,
   GameOver = 2
-} menuPage = Start;
+} vcView = Start;
 
-void menuInit() {
+void vcInit() {
   startInit();
 }
 
-void menuLoop(state hardwareState) {
+void vcLoop(state hardwareState) {
   int leftBtnState = hardwareState.leftBtn;
   int rightBtnState = hardwareState.rightBtn;
   int bottomSwitchState = hardwareState.bottomSwitch;
   int topSwitchState = hardwareState.topSwitch;
-  switch(menuPage) {
+  switch(vcView) {
   case Start:
     trackLoopWithPushFunc(trackPushFullTile);
     fpks = 8000;
@@ -41,7 +41,7 @@ void menuLoop(state hardwareState) {
     if (bottomSwitchState == HIGH) break;
     trackLoopWithPushFunc(trackPushRandTile);
     if (checkCollision(lane) == 1) {
-      menuPage = GameOver;
+      vcView = GameOver;
       gameOverInit();
     }
     fpks += 50;
@@ -60,7 +60,7 @@ void menuLoop(state hardwareState) {
 void gameOverLoop() {
   if (gameOverHeight > SCREEN_HEIGHT) {
     startInit();
-    menuPage = Start;
+    vcView = Start;
     delay(3000);
   }
 
@@ -96,7 +96,7 @@ void startLoop(int leftBtnState, int rightBtnState) {
   int bannerWidth = 64;
 
   if (leftBtnState == HIGH || rightBtnState == HIGH) {
-    menuPage = Game;
+    vcView = Game;
     head = trackDelete(head);
     trackInit();
   } else {
@@ -104,18 +104,18 @@ void startLoop(int leftBtnState, int rightBtnState) {
     OrbitOledSetDrawMode(modOledAnd);
     OrbitOledMoveTo((SCREEN_HEIGHT / 2) - (bannerWidth / 2), 0);
     OrbitOledFillRect((SCREEN_HEIGHT / 2) + (bannerWidth / 2), SCREEN_WIDTH);
-  
+
     OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
     OrbitOledSetDrawMode(modOledSet);
     OrbitOledMoveTo((SCREEN_HEIGHT / 2) - (bannerWidth / 2), 0);
     OrbitOledDrawString("Press");
-  
+
     OrbitOledMoveTo((SCREEN_HEIGHT / 2) - (bannerWidth / 2), SCREEN_WIDTH * 1 / 3);
     OrbitOledDrawString("Button");
-  
+
     OrbitOledMoveTo((SCREEN_HEIGHT / 2) - (bannerWidth / 2), SCREEN_WIDTH * 2 / 3);
     OrbitOledDrawString("to Begin");
-  
+
     OrbitOledUpdate();
   }
 }
@@ -147,10 +147,9 @@ void trackLoopWithPushFunc(tile *(*pushTile)(tile *)) {
   OrbitOledClear();
   OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
   OrbitOledSetDrawMode(modOledSet);
-  draw(onscreen, offset);
+  drawTrack(onscreen, offset);
   offset++;
 }
 void trackLoop() {
   trackLoopWithPushFunc(trackPushRandTile);
 }
-
