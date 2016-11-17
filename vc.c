@@ -8,7 +8,10 @@ static enum View {
 typedef enum View View;
 
 const int drawDelay = 50;
-const int defaultGameTickDelay = 30;
+const int defStartTickDelay = 100;
+const int defGameTickDelay = 25;
+const int defGameFastDelay = 8;
+const int defGameOverTickDelay = 10;
 int tickDelay;
 
 int lastDrawTime, lastTickTime;
@@ -36,9 +39,9 @@ void vcLoop(HardwareState state) {
     case Game:
       if (state.bottomSwitch == HIGH) break;
       if (state.topSwitch == HIGH) {
-        tickDelay = 10;
+        tickDelay = defGameFastDelay;
       } else {
-        tickDelay = defaultGameTickDelay;
+        tickDelay = defGameTickDelay;
       }
       trackTick(trackPushRandTile);
       carTick(state.leftBtn, state.rightBtn);
@@ -82,7 +85,7 @@ void startInit() {
   }
   onscreen = head->next;
   offset = 0;
-  tickDelay = 100;
+  tickDelay = defStartTickDelay;
 }
 
 void gameInit() {
@@ -95,12 +98,12 @@ void gameInit() {
   }
   onscreen = head->next;
   offset = 0;
-  tickDelay = defaultGameTickDelay;
+  tickDelay = defGameTickDelay;
 }
 
 void gameOverInit() {
   gameOverHeight = 0;
-  tickDelay = 10;
+  tickDelay = defGameOverTickDelay;
 }
 
 void startTick(int leftBtnState, int rightBtnState) {
