@@ -1,19 +1,4 @@
 #include "vc.h"
-#include "car.h"
-
-#include <math.h>
-#include <OrbitOled.h>
-#include <OrbitOledGrph.h>
-#include <FillPat.h>
-
-
-tile *head;
-tile *onscreen;
-int offset;
-int lane;
-int fpks;
-
-int gameOverHeight;
 
 static enum View
 {
@@ -22,15 +7,22 @@ static enum View
   GameOver = 2
 } vcView = Start;
 
+tile *head;
+tile *onscreen;
+int offset;
+int lane;
+int fpks;
+int gameOverHeight;
+
 void vcInit() {
   startInit();
 }
 
-void vcLoop(state hardwareState) {
-  int leftBtnState = hardwareState.leftBtn;
-  int rightBtnState = hardwareState.rightBtn;
-  int bottomSwitchState = hardwareState.bottomSwitch;
-  int topSwitchState = hardwareState.topSwitch;
+void vcLoop(HardwareState state) {
+  int leftBtnState = state.leftBtn;
+  int rightBtnState = state.rightBtn;
+  int bottomSwitchState = state.bottomSwitch;
+  int topSwitchState = state.topSwitch;
   switch(vcView) {
   case Start:
     trackLoopWithPushFunc(trackPushFullTile);
@@ -57,33 +49,6 @@ void vcLoop(state hardwareState) {
   delay(1000000 / fpks);
 }
 
-void gameOverLoop() {
-  if (gameOverHeight > SCREEN_HEIGHT) {
-    startInit();
-    vcView = Start;
-    delay(3000);
-  }
-
-  OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
-  OrbitOledSetDrawMode(modOledSet);
-  OrbitOledMoveTo(SCREEN_HEIGHT - gameOverHeight, 0);
-  OrbitOledLineTo(SCREEN_HEIGHT - gameOverHeight, SCREEN_HEIGHT);
-  OrbitOledUpdate();
-  gameOverHeight++;
-
-}
-
-void gameOverInit() {
-  gameOverHeight = 0;
-}
-
-void carLoop(int leftBtnState, int rightBtnState) {
-  lane = updateCarLane(leftBtnState, rightBtnState);
-  OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
-  OrbitOledSetDrawMode(modOledSet);
-  drawCar(lane);
-}
-
 void startInit() {
   head = trackCreate();
   for (int i = 0; i < 7; i++) {
@@ -92,6 +57,7 @@ void startInit() {
   onscreen = head->next;
   offset = 0;
 }
+
 void startLoop(int leftBtnState, int rightBtnState) {
   int bannerWidth = 64;
 
@@ -150,6 +116,34 @@ void trackLoopWithPushFunc(tile *(*pushTile)(tile *)) {
   drawTrack(onscreen, offset);
   offset++;
 }
+
 void trackLoop() {
   trackLoopWithPushFunc(trackPushRandTile);
 }
+
+void carLoop(int leftBtnState, int rightBtnState) {
+  lane = updateCarLane(leftBtnState, rightBtnState);
+  OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
+  OrbitOledSetDrawMode(modOledSet);
+  drawCar(lane);
+}
+
+void gameOverInit() {
+  gameOverHeight = 0;
+}
+
+void gameOverLoop() {
+  if (gameOverHeight > SCREEN_HEIGHT) {
+    startInit();
+    vcView = Start;
+    delay(3000);
+  }
+
+  OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
+  OrbitOledSetDrawMode(modOledSet);
+  OrbitOledMoveTo(SCREEN_HEIGHT - gameOverHeight, 0);
+  OrbitOledLineTo(SCREEN_HEIGHT - gameOverHeight, SCREEN_HEIGHT);
+  OrbitOledUpdate();
+  gameOverHeight++;
+}
+

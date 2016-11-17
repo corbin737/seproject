@@ -11,15 +11,17 @@
 extern "C"
 {
 #endif
+
+#include <OrbitOled.h>
+#include <OrbitBoosterPackDefs.h>
+#include <OrbitOledGrph.h>
+#include <FillPat.h>
 #include "defs.h"
 
-
 void getCarPos(int *x, int *y, int lane);
-
 void drawCar(int lane);
 int updateCarLane(int leftBtnState, int rightBtnState);
 int checkCollision(int lane);
-
 
 #ifdef __cplusplus
 }

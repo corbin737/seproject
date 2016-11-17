@@ -1,12 +1,13 @@
 #include "track.h"
 
-
-#define TILE_WIDTH_BORDER 1
-#define TILE_HEIGHT_BORDER 1
 #define BARRICADE_WIDTH 4
 #define BARRICADE_HEIGHT 17
-#define BARRICADE_BUFFER_X (TILE_HEIGHT-BARRICADE_HEIGHT)/2
-#define BARRICADE_BUFFER_Y (TILE_WIDTH-BARRICADE_WIDTH)/2
+
+const int tileWidthBorder = 1;
+const int tileHeightBorder = 1;
+const int barricadeBufferX = (TILE_HEIGHT-BARRICADE_HEIGHT) / 2;
+const int barricadeBufferY = (TILE_WIDTH-BARRICADE_WIDTH) / 2;
+
 typedef enum {
   Random,
   Blank,
@@ -64,8 +65,8 @@ void drawTrack(tile *onScreen, int offset) {
   for (tile *i = onScreen; i != NULL; i = i->next) {
 
     for (int column = 0; column < sizeof(i->value)/sizeof(i->value[0]); column++) {
-      tileX = SCREEN_HEIGHT - (row * TILE_HEIGHT) - TILE_HEIGHT - TILE_HEIGHT_BORDER;
-      tileY = column * TILE_WIDTH + TILE_WIDTH_BORDER;
+      tileX = SCREEN_HEIGHT - (row * TILE_HEIGHT) - TILE_HEIGHT - tileHeightBorder;
+      tileY = column * TILE_WIDTH + tileWidthBorder;
       if (offset != 0)
         tileX += shift;
 
@@ -74,8 +75,8 @@ void drawTrack(tile *onScreen, int offset) {
 
       OrbitOledMoveTo(tileX, tileY);
       if (i->value[column]) {
-        OrbitOledMoveTo(tileX + BARRICADE_BUFFER_X, tileY + BARRICADE_BUFFER_Y);
-        OrbitOledFillRect(tileX + TILE_HEIGHT - BARRICADE_BUFFER_X, tileY + TILE_WIDTH - BARRICADE_BUFFER_Y);
+        OrbitOledMoveTo(tileX + barricadeBufferX, tileY + barricadeBufferY);
+        OrbitOledFillRect(tileX + TILE_HEIGHT - barricadeBufferX, tileY + TILE_WIDTH - barricadeBufferY);
       }
     }
     row++;

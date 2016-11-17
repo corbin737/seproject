@@ -8,6 +8,8 @@ extern "C"
 
 #include <OrbitOled.h>
 #include <OrbitBoosterPackDefs.h>
+#include <OrbitOledGrph.h>
+#include <FillPat.h>
 
 #include "track.h"
 #include "car.h"
@@ -18,10 +20,10 @@ typedef struct {
   int rightBtn;
   int bottomSwitch;
   int topSwitch;
-} state;
+} HardwareState;
 
 void vcInit();
-void vcLoop(state hardwareState);
+void vcLoop(HardwareState state);
 
 #ifdef __cplusplus
 }

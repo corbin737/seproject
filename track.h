@@ -8,8 +8,8 @@ extern "C"
 
 #include <stdlib.h>
 #include <stdbool.h>
-
 #include "defs.h"
+
 struct tile {
   struct tile *prev;
   struct tile *next;

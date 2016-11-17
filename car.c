@@ -4,9 +4,7 @@
  * Description: Contains methods involving the car
  *******************************************************************************************/
 
-#include <OrbitBoosterPackDefs.h>
 #include "car.h"
-#include "track.h"
 
 const int middleX = TILE_WIDTH / 2;
 const int middleY = TILE_HEIGHT / 2;
@@ -22,9 +20,10 @@ void getCarPos(int *x, int *y, int lane) {
 void drawCar(int lane) {
   int x = middleY + TILE_HEIGHT_BORDER;
   int y = lane*TILE_WIDTH + middleX + TILE_WIDTH_BORDER;
-
+  
+  OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
+  OrbitOledSetDrawMode(modOledSet);
   drawFillCircle(x, y, carRadius);
-
   OrbitOledUpdate();
 }
 
