@@ -1,16 +1,15 @@
 #include "vc.h"
 
 static enum View {
-  Start = 0,
-  Game = 1,
-  GameOver = 2
+  Start,
+  Game,
+  GameOver
 } vcView;
 typedef enum View View;
 
 const int drawDelay = 50;
 const int defStartTickDelay = 100;
-const int defGameTickDelay = 25;
-const int defGameFastDelay = 8;
+const int defGameTickDelay = 18;
 const int defGameOverTickDelay = 10;
 int tickDelay;
 
@@ -20,6 +19,15 @@ tile *onscreen;
 int offset;
 int lane;
 int gameOverHeight;
+
+const int levelDisplayMillis = 2000;
+const int levelGraceTicks = 150;
+const int levelTickIncrease = 200;
+int levelTicks = 1200;
+
+int level;
+int levelDisplayStart;
+int levelTimer;
 
 void setView(View view);
 
@@ -38,13 +46,30 @@ void vcLoop(HardwareState state) {
       break;
     case Game:
       if (state.bottomSwitch == HIGH) break;
-      if (state.topSwitch == HIGH) {
-        tickDelay = defGameFastDelay;
+      if ((currentTime - levelDisplayStart) < levelDisplayMillis) {
+        carTick(state.leftBtn, state.rightBtn);
+        if (levelTimer != 0) {
+          levelTimer = 0;
+        }
       } else {
-        tickDelay = defGameTickDelay;
+        if (state.topSwitch == HIGH) {
+          tickDelay = floor(0.5 * defGameTickDelay * pow(0.7, (level-1)));
+        } else {
+          tickDelay = floor(defGameTickDelay * pow(0.7, (level-1)));
+        }
+        if (levelTimer < levelTicks) {
+          trackTick(trackPushRandTile);
+        } else if (levelTimer < (levelTicks + levelGraceTicks)) {
+          trackTick(trackPushBlankTile);
+        }
+        carTick(state.leftBtn, state.rightBtn);
+        levelTimer++;
+        if (levelTimer == (levelTicks + levelGraceTicks)) {
+          levelDisplayStart = millis();
+          level++;
+          levelTicks += levelTickIncrease;
+        }
       }
-      trackTick(trackPushRandTile);
-      carTick(state.leftBtn, state.rightBtn);
       break;
     case GameOver:
       gameOverTick();
@@ -62,11 +87,16 @@ void vcLoop(HardwareState state) {
     case Game:
       if (state.bottomSwitch == HIGH) break;
       OrbitOledClear();
-      drawTrack(onscreen, offset);
-      if (checkCollision(lane) == 1) {
-        setView(GameOver);
+      if ((currentTime - levelDisplayStart) < levelDisplayMillis) {
+        drawLevel();
+        drawCar(lane);
+      } else {
+        drawTrack(onscreen, offset);
+        if (checkCollision(lane) == 1) {
+          setView(GameOver);
+        }
+        drawCar(lane);
       }
-      drawCar(lane);
       break;
     case GameOver:
       drawGameOver(gameOverHeight);
@@ -86,6 +116,15 @@ void startInit() {
   onscreen = head->next;
   offset = 0;
   tickDelay = defStartTickDelay;
+  level = 1;
+}
+
+void drawLevel() {
+  OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
+  OrbitOledSetDrawMode(modOledSet);
+  OrbitOledMoveTo((SCREEN_HEIGHT / 2), (SCREEN_WIDTH / 2));
+  OrbitOledDrawString("Level");
+  OrbitOledDrawChar(level + '0');
 }
 
 void gameInit() {
@@ -99,6 +138,8 @@ void gameInit() {
   onscreen = head->next;
   offset = 0;
   tickDelay = defGameTickDelay;
+  level = 1;
+  levelDisplayStart = millis();
 }
 
 void gameOverInit() {

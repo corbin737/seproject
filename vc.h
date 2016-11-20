@@ -6,6 +6,7 @@ extern "C"
 {
 #endif
 
+#include <math.h>
 #include <OrbitOled.h>
 #include <OrbitBoosterPackDefs.h>
 #include <OrbitOledGrph.h>
