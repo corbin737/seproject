@@ -63,16 +63,17 @@ void vcLoop(HardwareState state) {
     lastDrawTime = currentTime;
     switch(vcView) {
     case Start:
-      OrbitOledClear();
+      OrbitOledClearBuffer();
       drawTrack(onscreen, offset);
       drawStart();
       break;
     case Game:
       if (state.bottomSwitch == HIGH) break; // For pausing
-      OrbitOledClear();
+      OrbitOledClearBuffer();
       if ((currentTime - levelDisplayStart) < levelDisplayMillis) {
         drawLevel();
       } else {
+        OrbitOledClearBuffer();
         drawTrack(onscreen, offset);
         if (checkCollision(lane) == 1) {
           setView(GameOver);
@@ -184,6 +185,7 @@ void drawStart() {
   OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
   OrbitOledSetDrawMode(modOledSet);
   OrbitOledMoveTo((SCREEN_HEIGHT / 2) - (bannerWidth / 2), 0);
+
   OrbitOledDrawString("Press");
   OrbitOledMoveTo((SCREEN_HEIGHT / 2) - (bannerWidth / 2), SCREEN_WIDTH * 1 / 3);
   OrbitOledDrawString("Button");

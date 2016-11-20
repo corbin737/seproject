@@ -82,7 +82,7 @@ void drawTrack(tile *onScreen, int offset) {
     row++;
   }
 
-  OrbitOledUpdate();
+  //OrbitOledUpdate();
 }
 
 

@@ -24,7 +24,7 @@ void drawCar(int lane) {
   OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
   OrbitOledSetDrawMode(modOledSet);
   drawFillCircle(x, y, carRadius);
-  OrbitOledUpdate();
+  //OrbitOledUpdate();
 }
 
 //updates lane based on user input

@@ -22,6 +22,7 @@ void setup() {
 
   OrbitOledInit();
   vcInit();
+
 }
 
 void loop() {
