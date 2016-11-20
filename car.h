@@ -18,6 +18,8 @@ extern "C"
 #include <FillPat.h>
 #include "defs.h"
 
+
+
 void getCarPos(int *x, int *y, int lane);
 void drawCar(int lane);
 int updateCarLane(int leftBtnState, int rightBtnState);
