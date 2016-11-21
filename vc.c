@@ -50,7 +50,7 @@ void vcLoop(HardwareState state) {
       gameTick(state);
       break;
     case GameOver:
-      if (gameOverHeight > SCREEN_HEIGHT) {
+      if (gameOverHeight > SCREEN_HEIGHT + 1) {
         setView(Start);
         delay(2000);
       }
@@ -171,7 +171,7 @@ void drawGameOver(int height) {
   OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
   OrbitOledSetDrawMode(modOledSet);
   OrbitOledMoveTo(SCREEN_HEIGHT, 0);
-  OrbitOledFillRect(SCREEN_HEIGHT - gameOverHeight, SCREEN_WIDTH);
+  OrbitOledFillRect(SCREEN_HEIGHT - gameOverHeight - 1, SCREEN_WIDTH);
 }
 
 void drawStart() {
@@ -197,7 +197,7 @@ void drawLevel() {
   OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
   OrbitOledSetDrawMode(modOledSet);
   OrbitOledMoveTo((SCREEN_HEIGHT / 2), (SCREEN_WIDTH / 2));
-  OrbitOledDrawString("Level");
+  OrbitOledDrawString("Level ");
   OrbitOledDrawChar(level + '0');
 }
 
