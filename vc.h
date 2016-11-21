@@ -11,6 +11,7 @@ extern "C"
 #include <OrbitBoosterPackDefs.h>
 #include <OrbitOledGrph.h>
 #include <FillPat.h>
+#include <stdbool.h>
 
 #include "track.h"
 #include "car.h"
@@ -21,6 +22,8 @@ typedef struct {
   int rightBtn;
   int bottomSwitch;
   int topSwitch;
+  int accel;
+  int tivaBtn;
 } HardwareState;
 
 void vcInit();

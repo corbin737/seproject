@@ -63,7 +63,7 @@ void drawCarCircle(int lane) {
 }
 
 //updates lane based on user input
-int updateCarLane(int newLeftState, int newRightState) {
+int updateCarLaneButton(int newLeftState, int newRightState) {
   static int oldLeftState = LOW;
   static int oldRightState = LOW;
   static int lane = 1;
@@ -88,7 +88,13 @@ int updateCarLane(int newLeftState, int newRightState) {
   // No lane moving necessary
   oldLeftState = newLeftState;
   oldRightState = newRightState;
+
+  
   return lane;
+}
+
+int updateCarLaneAccel(int accel) {
+  return (accel * -1) + 1;
 }
 
 int checkCollision (int lane) {

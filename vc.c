@@ -19,6 +19,7 @@ tile *onscreen;
 int offset;
 int lane;
 int gameOverHeight;
+bool paused;
 
 const int levelDisplayMillis = 2000;
 const int levelGraceTicks = 150;
@@ -47,6 +48,8 @@ void vcLoop(HardwareState state) {
       }
       break;
     case Game:
+      pauseTick(state.tivaBtn);
+      if (paused) break;
       gameTick(state);
       break;
     case GameOver:
@@ -68,7 +71,7 @@ void vcLoop(HardwareState state) {
       drawStart();
       break;
     case Game:
-      if (state.bottomSwitch == HIGH) break; // For pausing
+      if (paused) return;
       OrbitOledClearBuffer();
       if ((currentTime - levelDisplayStart) < levelDisplayMillis) {
         drawLevel();
@@ -113,7 +116,9 @@ void gameInit() {
   offset = 0;
   tickDelay = defGameTickDelay;
   level = 1;
+  lane = 1;
   levelDisplayStart = millis();
+  paused = false;
 }
 
 void gameOverInit() {
@@ -136,13 +141,12 @@ void trackTick(tile *(*pushTile)(tile *)) {
   }
 }
 
-void carTick(int leftBtnState, int rightBtnState) {
-  lane = updateCarLane(leftBtnState, rightBtnState);
-}
-
 void gameTick(HardwareState state) {
-  if (state.bottomSwitch == HIGH) return;
-  lane = updateCarLane(state.leftBtn, state.rightBtn);
+  if (state.bottomSwitch == HIGH) {
+    lane = updateCarLaneAccel(state.accel);
+  } else {
+    lane = updateCarLaneButton(state.leftBtn, state.rightBtn);
+  }
   if ((millis() - levelDisplayStart) < levelDisplayMillis) {
     if (levelTimer != 0) {
       levelTimer = 0;
@@ -165,6 +169,14 @@ void gameTick(HardwareState state) {
       levelTicks += levelTickIncrease;
     }
   }
+}
+
+void pauseTick(int newState) {
+  static int oldState = HIGH;
+  if (newState == LOW && oldState == HIGH) {
+    paused = !paused;
+  }
+  oldState = newState;
 }
 
 void drawGameOver(int height) {
