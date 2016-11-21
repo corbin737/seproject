@@ -92,14 +92,17 @@ int updateCarLane(int newLeftState, int newRightState) {
 }
 
 int checkCollision (int lane) {
-  int x = middleY + TILE_HEIGHT_BORDER;
+  int x = TILE_HEIGHT - 3 + TILE_HEIGHT_BORDER;
   int y = lane*TILE_WIDTH + TILE_WIDTH_BORDER;
-  for (int i = y; i < y+TILE_WIDTH; i++) {
-    OrbitOledMoveTo(x, i);
-    if (OrbitOledGetPixel() == 1) {
-      return 1;
+  for (int j = x; j > 0; j+=  -TILE_HEIGHT + 11) {
+    for (int i = y; i < y+TILE_WIDTH; i++) {
+      OrbitOledMoveTo(j, i);
+      if (OrbitOledGetPixel() == 1) {
+        return 1;
+      }
     }
   }
+
   return 0;
 }
 
