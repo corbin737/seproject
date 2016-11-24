@@ -79,8 +79,8 @@ void eraseCar(int lane);
 
 // Draws the car given the lane it is on
 void drawCar(int lane) {
-  int x = TILE_HEIGHT_BORDER + carHeightBuffer;
-  int y = lane * TILE_WIDTH + TILE_WIDTH_BORDER + carWidthBuffer;
+  int x = SCREEN_HEIGHT_BORDER + carHeightBuffer;
+  int y = lane * TILE_WIDTH + SCREEN_WIDTH_BORDER + carWidthBuffer;
 
   OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
   OrbitOledSetDrawMode(modOledSet);
@@ -91,8 +91,8 @@ void drawCar(int lane) {
 // Draws car crash animation given the ticks since the crash
 void drawCarCrash(int lane, int tick) {
   if (tick <= carCrashTicks * 2) {
-    int x = TILE_HEIGHT_BORDER + carHeightBuffer;
-    int y = lane*TILE_WIDTH + TILE_WIDTH_BORDER + carWidthBuffer;
+    int x = SCREEN_HEIGHT_BORDER + carHeightBuffer;
+    int y = lane*TILE_WIDTH + SCREEN_WIDTH_BORDER + carWidthBuffer;
 
     OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
     OrbitOledSetDrawMode(modOledSet);
@@ -152,9 +152,9 @@ int updateCarLaneAccel(int accel) {
 
 // Checks if car has crashed
 int checkCollision (int lane) {
-  int x = TILE_HEIGHT - carFrontDetection + TILE_HEIGHT_BORDER;
-  int y = lane*TILE_WIDTH + TILE_WIDTH_BORDER;
-  for (int x0 = x; x0 > 0; x0 -= x - carBackDetection - TILE_HEIGHT_BORDER) {
+  int x = TILE_HEIGHT - carFrontDetection + SCREEN_HEIGHT_BORDER;
+  int y = lane*TILE_WIDTH + SCREEN_WIDTH_BORDER;
+  for (int x0 = x; x0 > 0; x0 -= x - carBackDetection - SCREEN_HEIGHT_BORDER) {
     for (int y0 = y; y0 < y + TILE_WIDTH; y0++) {
       OrbitOledMoveTo(x0, y0);
       if (OrbitOledGetPixel() == 1) {
