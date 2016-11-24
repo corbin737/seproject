@@ -14,7 +14,8 @@ const int carWidthBuffer = (TILE_WIDTH - CAR_WIDTH) / 2;
 const int carHeightBuffer = (TILE_HEIGHT - CAR_HEIGHT) / 2;
 const int carCrashDecrement = 2;
 const int carFrontDetection = 3;
-const int carBackDetection = 5;
+const int carBackDetection = 8;
+const double accelThreshold = 2.5;
 
 // Number of ticks before the next animation of the car crash occurs
 const int carCrashTicks = 10;
@@ -141,9 +142,9 @@ int updateCarLaneButton(int newLeftState, int newRightState, int lane) {
 
 // Updates car lane based on accelerometer input
 int updateCarLaneAccel(int accel) {
-  if (accel > 2.5) {
+  if (accel > accelThreshold) {
       return 2;
-  } else if (accel < -2.5) {
+  } else if (accel < -accelThreshold) {
     return 0;
   }
   return 1;
@@ -153,7 +154,7 @@ int updateCarLaneAccel(int accel) {
 int checkCollision (int lane) {
   int x = TILE_HEIGHT - carFrontDetection + TILE_HEIGHT_BORDER;
   int y = lane*TILE_WIDTH + TILE_WIDTH_BORDER;
-  for (int x0 = x; x0 > 0; x0 -= x + carBackDetection + TILE_HEIGHT_BORDER) {
+  for (int x0 = x; x0 > 0; x0 -= x - carBackDetection - TILE_HEIGHT_BORDER) {
     for (int y0 = y; y0 < y + TILE_WIDTH; y0++) {
       OrbitOledMoveTo(x0, y0);
       if (OrbitOledGetPixel() == 1) {
