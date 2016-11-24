@@ -1,18 +1,15 @@
-/*******************************************************************************************
+/*******************************************************************************
  * Program: track.c
  * Author: Corbin Mcelhinney, Kalvin Thye
  * Description: Functions generating and drawing the track
  * Last Modified: November 24, 2016
- *******************************************************************************************/
+ ******************************************************************************/
 #include "track.h"
 
 #define BARRICADE_WIDTH 4
 #define BARRICADE_HEIGHT 17
-
-const int tileWidthBorder = 1;
-const int tileHeightBorder = 1;
-const int barricadeBufferX = (TILE_HEIGHT-BARRICADE_HEIGHT) / 2;
-const int barricadeBufferY = (TILE_WIDTH-BARRICADE_WIDTH) / 2;
+const int barricadeHeightBuffer  = (TILE_HEIGHT-BARRICADE_HEIGHT)/2;
+const int barricadeWidthBuffer  = (TILE_WIDTH-BARRICADE_WIDTH)/2;
 
 typedef enum {
   Random,
@@ -80,8 +77,8 @@ void drawTrack(tile *onScreen, int offset) {
   for (tile *i = onScreen; i != NULL; i = i->next) {
 
     for (int column = 0; column < sizeof(i->value)/sizeof(i->value[0]); column++) {
-      tileX = SCREEN_HEIGHT - (row * TILE_HEIGHT) - TILE_HEIGHT - tileHeightBorder;
-      tileY = column * TILE_WIDTH + tileWidthBorder;
+      tileX = SCREEN_HEIGHT - (row * TILE_HEIGHT) - TILE_HEIGHT - SCREEN_HEIGHT_BORDER;
+      tileY = column * TILE_WIDTH + SCREEN_WIDTH_BORDER;
       if (offset != 0)
         tileX += shift;
 
@@ -90,10 +87,10 @@ void drawTrack(tile *onScreen, int offset) {
 
       OrbitOledMoveTo(tileX, tileY);
       if (i->value[column]) {
-        OrbitOledMoveTo(tileX + barricadeBufferX, tileY + barricadeBufferY);
-        OrbitOledDrawRect(tileX + TILE_HEIGHT - barricadeBufferX, tileY + TILE_WIDTH - barricadeBufferY);
-        OrbitOledMoveTo(tileX + barricadeBufferX + 2, tileY + barricadeBufferY + 2);
-        OrbitOledFillRect(tileX + TILE_HEIGHT - barricadeBufferX - 2, tileY + TILE_WIDTH - barricadeBufferY - 2);
+        OrbitOledMoveTo(tileX + barricadeHeightBuffer, tileY + barricadeWidthBuffer);
+        OrbitOledDrawRect(tileX + TILE_HEIGHT - barricadeHeightBuffer, tileY + TILE_WIDTH - barricadeWidthBuffer);
+        OrbitOledMoveTo(tileX + barricadeHeightBuffer + 2, tileY + barricadeWidthBuffer + 2);
+        OrbitOledFillRect(tileX + TILE_HEIGHT - barricadeHeightBuffer - 2, tileY + TILE_WIDTH - barricadeWidthBuffer - 2);
       }
     }
     row++;

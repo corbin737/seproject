@@ -1,9 +1,9 @@
-/*******************************************************************************************
+/*******************************************************************************
  * Program: vc.c
  * Author: Corbin Mcelhinney, Kalvin Thye
- * Description: View Controller that communicates our model of the game with the display 
+ * Description: View Controller that communicates our model of the game with the display
  * Last Modified: November 24, 2016
- *******************************************************************************************/
+ ******************************************************************************/
 
 #include "vc.h"
 
@@ -43,6 +43,7 @@ int gameOverHeight;
 // Game progression
 const int levelTickIncrease = 200;
 const double levelDelayFactor = 0.8;
+const double speedMultiplier = 0.5;
 
 // Helper functions
 void startInit();
@@ -102,15 +103,12 @@ void vcLoop(HardwareState state) {
       if ((currentTime - levelDisplayStart) < levelDisplayMillis) {
         drawLevel();
       } else {
-        OrbitOledClearBuffer();
         drawTrack(onscreen, offset);
-      }
-      if (checkCollision(lane) == 1) {
+        if (checkCollision(lane) == 1) {
           setView(GameOver);
-          drawCar(lane);
-      } else {
-        drawCar(lane);
+        }
       }
+      drawCar(lane);
       break;
     case GameOver:
       drawGameOver();
@@ -118,6 +116,8 @@ void vcLoop(HardwareState state) {
     OrbitOledUpdate();
   }
 }
+/******************************************************************************/
+// Helper Functions:
 
 // Initializes global variables for Start view
 void startInit() {
@@ -163,9 +163,9 @@ void gameOverInit() {
 void trackTick(tile *(*pushTile)(tile *)) {
   // Update track model
   offset++;
-  if (offset >= 21) {
+  if (offset >= TILE_HEIGHT) {
     // Bottom tile has moved off screen entirely
-    offset %= 21;
+    offset %= TILE_HEIGHT;
     head = trackPopTile(head);
     head = pushTile(head);
   }
@@ -188,7 +188,7 @@ void gameTick(int leftBtn, int rightBtn, int accel, int controlSwitch, int speed
   } else {
     score++;
     if (speedSwitch == HIGH) {
-      tickDelay = floor(0.5 * defGameTickDelay * pow(levelDelayFactor, (level-1)));
+      tickDelay = floor(speedMultiplier * defGameTickDelay * pow(levelDelayFactor, (level-1)));
     } else {
       tickDelay = floor(defGameTickDelay * pow(levelDelayFactor, (level-1)));
     }
