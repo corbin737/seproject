@@ -2,6 +2,7 @@
  * Program: car.h
  * Author: Corbin Mcelhinney, Kalvin Thye
  * Description: Header file that contains methods involving the car
+ * Last Modified: November 24, 2016
  *******************************************************************************************/
 
 #ifndef CAR_H

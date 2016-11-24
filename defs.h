@@ -2,6 +2,7 @@
  * Program: defs.h
  * Author: Corbin Mcelhinney, Kalvin Thye
  * Description: Contains global constants
+ * Last Modified: November 24, 2016
  *******************************************************************************************/
 #ifndef DEFS_H
 #define DEFS_H
@@ -21,8 +22,8 @@ extern "C"
 #define TILE_HEIGHT_BORDER 1
 #define BARRICADE_WIDTH 4
 #define BARRICADE_HEIGHT 17
-#define BARRICADE_BUFFER_X (TILE_HEIGHT-BARRICADE_HEIGHT)/2
-#define BARRICADE_BUFFER_Y (TILE_WIDTH-BARRICADE_WIDTH)/2
+#define BARRICADE_HIEGHT_BUFFER (TILE_HEIGHT-BARRICADE_HEIGHT)/2
+#define BARRICADE_WIDTH_BUFFER (TILE_WIDTH-BARRICADE_WIDTH)/2
 
 #ifdef __cplusplus
 }
