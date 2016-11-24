@@ -76,7 +76,9 @@ void drawTrack(tile *onScreen, int offset) {
       OrbitOledMoveTo(tileX, tileY);
       if (i->value[column]) {
         OrbitOledMoveTo(tileX + barricadeBufferX, tileY + barricadeBufferY);
-        OrbitOledFillRect(tileX + TILE_HEIGHT - barricadeBufferX, tileY + TILE_WIDTH - barricadeBufferY);
+        OrbitOledDrawRect(tileX + TILE_HEIGHT - barricadeBufferX, tileY + TILE_WIDTH - barricadeBufferY);
+        OrbitOledMoveTo(tileX + barricadeBufferX + 2, tileY + barricadeBufferY + 2);
+        OrbitOledFillRect(tileX + TILE_HEIGHT - barricadeBufferX - 2, tileY + TILE_WIDTH - barricadeBufferY - 2);
       }
     }
     row++;
