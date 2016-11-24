@@ -11,8 +11,8 @@ const int middleY = TILE_HEIGHT / 2;
 const int carRadius = 3;
 
 char car[] = {
-  0x00, //Row 1
-  0x00, //Row 2
+  //0x00, //Row 1
+  //0x00, //Row 2
   0x7C, //Row 3
   0xFE, //Row 4
   0xC6, //Row 5
@@ -32,7 +32,22 @@ char car[] = {
   0x38, //Row 19
 };
 
-
+char carCrash[] = {
+    0b01111100,
+    0b11111110,
+    0b11000110,
+    0b10000010,
+    0b10000010,
+    0b01111100,
+    0b00111000,
+    0b01111110,
+    0b11011010,
+    0b10000010,
+    0b11000110,
+    0b11111110,
+    0b01111100
+    0b10000001
+    };
 
 //Access method that returns the coordinates of car
 void getCarPos(int *x, int *y, int lane) {
@@ -42,13 +57,24 @@ void getCarPos(int *x, int *y, int lane) {
 
 //draws car on screen given the lane it is on 
 void drawCar(int lane) {
-  int x = TILE_WIDTH_BORDER + 1;
+  int x = TILE_WIDTH_BORDER + 2;
   int y = lane*TILE_WIDTH + TILE_HEIGHT_BORDER + 1;
   OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
   OrbitOledSetDrawMode(modOledSet);
 
   OrbitOledMoveTo(x, y);
-  OrbitOledPutBmp(19, 8, car);
+  OrbitOledPutBmp(17, 8, car);
+}
+
+void drawCarCrash(int lane) {
+  int x = TILE_WIDTH_BORDER + 2;
+  int y = lane*TILE_WIDTH + TILE_HEIGHT_BORDER + 1;
+ OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
+  OrbitOledSetDrawMode(modOledSet);
+
+  OrbitOledMoveTo(x+3, y);
+  OrbitOledPutBmp(14, 8, carCrash);
+
 }
 
 //draws car on screen given the lane it is on (old)

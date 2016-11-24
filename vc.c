@@ -82,10 +82,17 @@ void vcLoop(HardwareState state) {
           setView(GameOver);
         }
       }
-      drawCar(lane);
+      if (checkCollision(lane) == 1) {
+          //setView(GameOver);
+          drawCarCrash(lane);
+      } else {
+        drawCar(lane);
+      }
+      
       break;
     case GameOver:
       drawGameOver(gameOverHeight);
+
     }
     OrbitOledUpdate();
   }
