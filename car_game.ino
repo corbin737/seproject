@@ -51,16 +51,6 @@ void ShakeInit()
   WireWriteRegister(SensorAccelerometer, 0x2D, 1 << 3);
 }
 
-int ShakeDirection()
-{
-    if (ShakeAccumulator > 2.5) {
-      return -1;
-  } else if (ShakeAccumulator < -2.5) {
-    return 1;
-  }
-  return 0;
-}
-
 void ShakeTick()
 {
   size_t const DataLength = 6;
@@ -106,7 +96,7 @@ void loop() {
   state.rightBtn = digitalRead(rightBtnPin);
   state.bottomSwitch = digitalRead(bottomSwitchPin);
   state.topSwitch = digitalRead(topSwitchPin);
-  state.accel = ShakeDirection();
+  state.accel = ShakeAccumulator;
   state.tivaBtn = digitalRead(tivaBtnPin);
   vcLoop(state);
 }

@@ -153,7 +153,12 @@ int updateCarLaneButton(int newLeftState, int newRightState, int lane) {
 }
 
 int updateCarLaneAccel(int accel) {
-  return (accel * -1) + 1;
+  if (accel > 2.5) {
+      return 2;
+  } else if (accel < -2.5) {
+    return 0;
+  }
+  return 1;
 }
 
 int checkCollision (int lane) {
