@@ -1,6 +1,6 @@
 /*******************************************************************************************
  * Program: vc.h
- * Author: Corbin Mcelhinney, Kalvin Thye
+ * Author: Corbin McElhanney, Kalvin Thye
  * Description: Header file for view controller
  * Last Modified: November 24, 2016
  *******************************************************************************************/

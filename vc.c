@@ -1,7 +1,7 @@
 /*******************************************************************************************
  * Program: vc.c
- * Author: Corbin Mcelhinney, Kalvin Thye
- * Description: View Controller that communicates our model of the game with the display 
+ * Author: Corbin McElhanney, Kalvin Thye
+ * Description: View Controller that communicates our model of the game with the display
  * Last Modified: November 24, 2016
  *******************************************************************************************/
 

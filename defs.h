@@ -1,6 +1,6 @@
 /*******************************************************************************************
  * Program: defs.h
- * Author: Corbin Mcelhinney, Kalvin Thye
+ * Author: Corbin McElhanney, Kalvin Thye
  * Description: Contains global constants
  * Last Modified: November 24, 2016
  *******************************************************************************************/
