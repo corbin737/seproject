@@ -14,25 +14,31 @@ typedef enum {
   Full
 } TileCreateType;
 
+// Helper function
 tile* trackPushTile(tile* oldHead, TileCreateType createType);
 
+// Adds a randomly generated tile to head
 tile *trackPushRandTile(tile *oldHead) {
-    return trackPushTile(oldHead, Random);
+  return trackPushTile(oldHead, Random);
 }
 
+// Adds a tile with no obstacles to head
 tile *trackPushBlankTile(tile *oldHead) {
   return trackPushTile(oldHead, Blank);
 }
 
+// Adds a tile with all three obstacles to head
 tile *trackPushFullTile(tile *oldHead) {
   return trackPushTile(oldHead, Full);
 }
 
+// Creates an empty track model
 tile *trackCreate() {
-    srand(millis());
-    return NULL;
+  srand(millis());
+  return NULL;
 }
 
+// Frees last tile in model
 tile *trackPopTile(tile *head) {
     if (head == NULL) return NULL;
     if (head->next == NULL) {
@@ -49,6 +55,7 @@ tile *trackPopTile(tile *head) {
     return head;
 }
 
+// Frees a given track model
 tile *trackDelete(tile *head) {
     while (head != NULL) {
         head = trackPopTile(head);
@@ -56,6 +63,8 @@ tile *trackDelete(tile *head) {
     return NULL;
 }
 
+// Draws tiles to the screen starting at onscreen until
+// the whole screen is filled
 void drawTrack(tile *onScreen, int offset) {
   int row = 0;
   int tileX, tileY;
@@ -83,11 +92,9 @@ void drawTrack(tile *onScreen, int offset) {
     }
     row++;
   }
-
-  //OrbitOledUpdate();
 }
 
-
+// Adds a tile of the given type to head
 tile* trackPushTile(tile* oldHead, TileCreateType createType) {
     tile *newHead = malloc(sizeof(tile));
     newHead->next = oldHead;
@@ -116,6 +123,7 @@ tile* trackPushTile(tile* oldHead, TileCreateType createType) {
     return newHead;
 }
 
+// Sets a random tile pattern
 void setRandomTileValue(bool val[NUMBER_OF_LANES]) {
     // Requires that NUMBER_OF_LANES == 3
     // Otherwise, changes to logic must be made
