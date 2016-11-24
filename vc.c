@@ -7,37 +7,54 @@ static enum View {
 } vcView;
 typedef enum View View;
 
+// Drawing and tick controls
+int lastDrawTime, lastTickTime;
+int tickDelay;
 const int drawDelay = 50;
 const int defStartTickDelay = 100;
 const int defGameTickDelay = 18;
 const int defGameOverTickDelay = 10;
-int tickDelay;
+const int levelDisplayMillis = 2000;
+const int levelGraceTicks = 150;
 
-int ticks;
+int levelTicks = 1200;
 
-int lastDrawTime, lastTickTime;
+// Game state variables
 tile *head;
 tile *onscreen;
 int offset;
 int lane;
-int gameOverHeight;
 bool paused;
-
-const int levelDisplayMillis = 2000;
-const int levelGraceTicks = 150;
-const int levelTickIncrease = 200;
-int levelTicks = 1200;
-
+int score;
 int level;
+
+// Draw state variables
 int levelDisplayStart;
 int levelTimer;
+int gameOverHeight;
 
+// Game progression
+const int levelTickIncrease = 200;
+const double levelDelayFactor = 0.8;
+
+// Helper functions
+void startInit();
+void gameInit();
+void gameOverInit();
+void trackTick(tile *(*pushTile)(tile *));
+void gameTick(int leftBtn, int rightBtn, int accel, int controlSwitch, int speedSwitch);
+void pauseTick(int btn);
+void drawGameOver();
+void drawStart();
+void drawLevel();
 void setView(View view);
 
+// Initializes the view controller
 void vcInit() {
   setView(Start);
 }
 
+// Executes drawing and logic (tick) operations at defined intervals
 void vcLoop(HardwareState state) {
   int currentTime = millis();
   if (currentTime - lastTickTime > tickDelay) {
@@ -52,7 +69,7 @@ void vcLoop(HardwareState state) {
     case Game:
       pauseTick(state.tivaBtn);
       if (paused) break;
-      gameTick(state);
+      gameTick(state.leftBtn, state.rightBtn, state.accel, state.bottomSwitch, state.topSwitch);
       break;
     case GameOver:
       if (gameOverHeight > SCREEN_HEIGHT + 2) {
@@ -81,29 +98,27 @@ void vcLoop(HardwareState state) {
         OrbitOledClearBuffer();
         drawTrack(onscreen, offset);
       }
-      
       if (checkCollision(lane) == 1) {
           setView(GameOver);
           drawCar(lane);
       } else {
         drawCar(lane);
       }
-      
       break;
     case GameOver:
-      drawGameOver(gameOverHeight);
-
+      drawGameOver();
     }
     OrbitOledUpdate();
   }
 }
 
+// Initializes global variables for Start view
 void startInit() {
   if (head != NULL) {
     head = trackDelete(head);
   }
   head = trackCreate();
-  for (int i = 0; i < 7; i++) {
+  for (int i = 0; i < NUMBER_OF_TILES + 1; i++) {
     head = trackPushFullTile(head);
   }
   onscreen = head->next;
@@ -111,29 +126,33 @@ void startInit() {
   tickDelay = defStartTickDelay;
 }
 
+// Initializes global variables for Game view
 void gameInit() {
   if (head != NULL) {
     head = trackDelete(head);
   }
   head = trackCreate();
-  for (int i = 0; i < 7; i++) {
+  for (int i = 0; i < NUMBER_OF_TILES + 1; i++) {
     head = trackPushBlankTile(head);
   }
   onscreen = head->next;
   offset = 0;
   tickDelay = defGameTickDelay;
   level = 1;
-  ticks = 0;
+  score = 0;
   lane = 1;
   levelDisplayStart = millis();
   paused = false;
 }
 
+// Initializes global variables for GameOver view
 void gameOverInit() {
   gameOverHeight = 0;
   tickDelay = defGameOverTickDelay;
 }
 
+// Progresses track model by one pixel, using pushTile to
+// add more track if necessary
 void trackTick(tile *(*pushTile)(tile *)) {
   // Update track model
   offset++;
@@ -149,64 +168,69 @@ void trackTick(tile *(*pushTile)(tile *)) {
   }
 }
 
-void gameTick(HardwareState state) {
-  if (state.bottomSwitch == HIGH) {
-    lane = updateCarLaneAccel(state.accel);
+// Updates global game variables based on user input and time elapsed
+void gameTick(int leftBtn, int rightBtn, int accel, int controlSwitch, int speedSwitch) {
+  if (controlSwitch == HIGH) {
+    lane = updateCarLaneAccel(accel);
   } else {
-    lane = updateCarLaneButton(state.leftBtn, state.rightBtn, lane);
+    lane = updateCarLaneButton(leftBtn, rightBtn, lane);
   }
+
   if ((millis() - levelDisplayStart) < levelDisplayMillis) {
-    if (levelTimer != 0) {
-      levelTimer = 0;
-    }
+    levelTimer = 0;
   } else {
-     ticks++;
-    if (state.topSwitch == HIGH) {
-      tickDelay = floor(0.5 * defGameTickDelay * pow(0.7, (level-1)));
+    score++;
+    if (speedSwitch == HIGH) {
+      tickDelay = floor(0.5 * defGameTickDelay * pow(levelDelayFactor, (level-1)));
     } else {
-      tickDelay = floor(defGameTickDelay * pow(0.7, (level-1)));
+      tickDelay = floor(defGameTickDelay * pow(levelDelayFactor, (level-1)));
     }
     if (levelTimer < levelTicks) {
+      // Normal tick
       trackTick(trackPushRandTile);
     } else if (levelTimer < (levelTicks + levelGraceTicks)) {
+      // Add blank tiles until screen is all blank
       trackTick(trackPushBlankTile);
-    }
-    levelTimer++;
-    if (levelTimer == (levelTicks + levelGraceTicks)) {
+    } else if (levelTimer >= (levelTicks + levelGraceTicks)) {
+      // Trigger next level
       levelDisplayStart = millis();
       level++;
       levelTicks += levelTickIncrease;
     }
+    levelTimer++;
   }
 }
 
-void pauseTick(int newState) {
+// Updates pause global variable based on user input
+void pauseTick(int btn) {
   static int oldState = HIGH;
-  if (newState == LOW && oldState == HIGH) {
+  if (btn == LOW && oldState == HIGH) {
     paused = !paused;
   }
-  oldState = newState;
+  oldState = btn;
 }
 
-void drawGameOver(int height) {
+// Draws a frame of the GameOver view based on global variables
+void drawGameOver() {
   OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
   OrbitOledSetDrawMode(modOledSet);
-  drawCarCrash(lane, height);
+  drawCarCrash(lane, gameOverHeight);
   OrbitOledMoveTo(SCREEN_HEIGHT, 0);
   OrbitOledFillRect(SCREEN_HEIGHT - gameOverHeight - 1, SCREEN_WIDTH);
 
-  if (height > SCREEN_HEIGHT - 5) {
-    char highscore[5];
-    itoa(ticks, highscore, 10);
+  if (gameOverHeight > SCREEN_HEIGHT - 5) {
+    // Draw game over text
+    char score_str[5];
+    itoa(score, score_str, 10);
     OrbitOledSetDrawMode(modOledXor);
     OrbitOledMoveTo(SCREEN_HEIGHT / 2 - 35, SCREEN_WIDTH / 2 - 10);
     OrbitOledDrawString("Game Over");
     OrbitOledMoveTo(SCREEN_HEIGHT / 2 - 35, SCREEN_WIDTH / 2);
-    OrbitOledDrawString("HS: ");
-    OrbitOledDrawString(highscore);
+    OrbitOledDrawString(score_str);
   }
 }
 
+// Clears space for and draws start text
 void drawStart() {
   int bannerWidth = 64;
 
@@ -226,6 +250,7 @@ void drawStart() {
   OrbitOledDrawString("to Begin");
 }
 
+// Draws text declaring a new level
 void drawLevel() {
   OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
   OrbitOledSetDrawMode(modOledSet);
@@ -234,6 +259,7 @@ void drawLevel() {
   OrbitOledDrawChar(level + '0');
 }
 
+// Updates global view variable and initializes the new view
 void setView(View view) {
   vcView = view;
   switch(vcView) {
