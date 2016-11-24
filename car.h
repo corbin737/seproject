@@ -20,7 +20,7 @@ extern "C"
 
 void getCarPos(int *x, int *y, int lane);
 void drawCar(int lane);
-int updateCarLaneButton(int newLeftState, int newRightState);
+int updateCarLaneButton(int newLeftState, int newRightState, int lane);
 int updateCarLaneAccel(int accel);
 int checkCollision(int lane);
 

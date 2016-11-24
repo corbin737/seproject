@@ -145,7 +145,7 @@ void gameTick(HardwareState state) {
   if (state.bottomSwitch == HIGH) {
     lane = updateCarLaneAccel(state.accel);
   } else {
-    lane = updateCarLaneButton(state.leftBtn, state.rightBtn);
+    lane = updateCarLaneButton(state.leftBtn, state.rightBtn, lane);
   }
   if ((millis() - levelDisplayStart) < levelDisplayMillis) {
     if (levelTimer != 0) {
