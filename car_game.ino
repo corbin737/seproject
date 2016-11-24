@@ -83,7 +83,7 @@ const int leftBtnPin = PE_0;
 const int rightBtnPin = PD_2;
 const int bottomSwitchPin = PA_6;
 const int topSwitchPin = PA_7;
-const int tivaBtnPin = PUSH2;
+const int tivaBtnPin = PUSH1;
 
 HardwareState state;
 

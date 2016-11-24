@@ -13,6 +13,8 @@ const int defGameTickDelay = 18;
 const int defGameOverTickDelay = 10;
 int tickDelay;
 
+int ticks;
+
 int lastDrawTime, lastTickTime;
 tile *head;
 tile *onscreen;
@@ -55,7 +57,7 @@ void vcLoop(HardwareState state) {
     case GameOver:
       if (gameOverHeight > SCREEN_HEIGHT + 2) {
         setView(Start);
-        delay(2000);
+        delay(3000);
       }
       gameOverHeight++;
       break;
@@ -121,6 +123,7 @@ void gameInit() {
   offset = 0;
   tickDelay = defGameTickDelay;
   level = 1;
+  ticks = 0;
   lane = 1;
   levelDisplayStart = millis();
   paused = false;
@@ -150,13 +153,14 @@ void gameTick(HardwareState state) {
   if (state.bottomSwitch == HIGH) {
     lane = updateCarLaneAccel(state.accel);
   } else {
-    lane = updateCarLaneButton(state.leftBtn, state.rightBtn);
+    lane = updateCarLaneButton(state.leftBtn, state.rightBtn, lane);
   }
   if ((millis() - levelDisplayStart) < levelDisplayMillis) {
     if (levelTimer != 0) {
       levelTimer = 0;
     }
   } else {
+     ticks++;
     if (state.topSwitch == HIGH) {
       tickDelay = floor(0.5 * defGameTickDelay * pow(0.7, (level-1)));
     } else {
@@ -190,6 +194,17 @@ void drawGameOver(int height) {
   drawCarCrash(lane, height);
   OrbitOledMoveTo(SCREEN_HEIGHT, 0);
   OrbitOledFillRect(SCREEN_HEIGHT - gameOverHeight - 1, SCREEN_WIDTH);
+
+  if (height > SCREEN_HEIGHT - 5) {
+    char highscore[5];
+    itoa(ticks, highscore, 10);
+    OrbitOledSetDrawMode(modOledXor);
+    OrbitOledMoveTo(SCREEN_HEIGHT / 2 - 35, SCREEN_WIDTH / 2 - 10);
+    OrbitOledDrawString("Game Over");
+    OrbitOledMoveTo(SCREEN_HEIGHT / 2 - 35, SCREEN_WIDTH / 2);
+    OrbitOledDrawString("HS: ");
+    OrbitOledDrawString(highscore);
+  }
 }
 
 void drawStart() {
