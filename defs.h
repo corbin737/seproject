@@ -1,3 +1,8 @@
+/*******************************************************************************************
+ * Program: defs.h
+ * Author: Corbin Mcelhinney, Kalvin Thye
+ * Description: Contains global constants
+ *******************************************************************************************/
 #ifndef DEFS_H
 #define DEFS_H
 

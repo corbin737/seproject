@@ -11,9 +11,26 @@ const int middleY = TILE_HEIGHT / 2;
 const int carRadius = 3;
 
 char car[] = {
-  //0x00, //Row 1
-  //0x00, //Row 2
-  0x7C, //Row 3
+  0b01111100,
+  0b11111110, 
+  0b11000110, 
+  0b10000010,
+  0b10000010,
+  0b10000010,
+  0b01111100,
+  0b00111000,
+  0b00111000,
+  0b00111000,
+  0b10111010,
+  0b10111010,
+  0b11000110,
+  0b10000010,
+  0b11111110,
+  0b01111100,
+  0b00111000 
+};
+
+/*  0x7C, //Row 3
   0xFE, //Row 4
   0xC6, //Row 5
   0x82, //Row 6
@@ -29,31 +46,42 @@ char car[] = {
   0x82, //Row 16
   0xFE, //Row 17
   0x7C, //Row 18
-  0x38, //Row 19
+  0x38, //Row 19*/
+
+char carCrash0[] = {
+  0b01111100,
+  0b11111110, 
+  0b11000110, 
+  0b10000010,
+  0b10000010,
+  0b10000010,
+  0b01111100,
+  0b00111000,
+  0b00111000,
+  0b00111000,
+  0b10111010,
+  0b10111010,
+  0b11000110,
+  0b10000010,
+  0b11111110
 };
 
-char carCrash[] = {
-    0b01111100,
-    0b11111110,
-    0b11000110,
-    0b10000010,
-    0b10000010,
-    0b01111100,
-    0b00111000,
-    0b01111110,
-    0b11011010,
-    0b10000010,
-    0b11000110,
-    0b11111110,
-    0b01111100
-    0b10000001
-    };
 
-//Access method that returns the coordinates of car
-void getCarPos(int *x, int *y, int lane) {
-  *x = middleY + TILE_HEIGHT_BORDER;
-  *y = lane*TILE_WIDTH + middleX + TILE_WIDTH_BORDER;
-}
+char carCrash1[] = {
+  0b01111100,
+  0b11111110,
+  0b11000110,
+  0b10000010,
+  0b10000010,
+  0b01111100,
+  0b00111000,
+  0b01111110,
+  0b11011010,
+  0b10000010,
+  0b11000110,
+  0b11111110,
+  0b01111100
+};
 
 //draws car on screen given the lane it is on 
 void drawCar(int lane) {
@@ -66,14 +94,21 @@ void drawCar(int lane) {
   OrbitOledPutBmp(17, 8, car);
 }
 
-void drawCarCrash(int lane) {
+void drawCarCrash(int lane, int counter) {
   int x = TILE_WIDTH_BORDER + 2;
   int y = lane*TILE_WIDTH + TILE_HEIGHT_BORDER + 1;
- OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
+  OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
   OrbitOledSetDrawMode(modOledSet);
 
-  OrbitOledMoveTo(x+3, y);
-  OrbitOledPutBmp(14, 8, carCrash);
+  if (counter <= 10) {
+    eraseCar(lane);
+    OrbitOledMoveTo(x+2, y);
+    OrbitOledPutBmp(15, 8, carCrash0);
+  } else if (counter <= 20) {
+    eraseCar(lane);
+    OrbitOledMoveTo(x+4, y);
+    OrbitOledPutBmp(13, 8, carCrash1);
+  }
 
 }
 
@@ -141,6 +176,18 @@ int checkCollision (int lane) {
 
 /*******************************************************************************************/
 //Helper Functions:
+void eraseCar(int lane) {
+  int x = TILE_WIDTH_BORDER;
+  int y = lane*TILE_WIDTH + TILE_HEIGHT_BORDER;
+    OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnBlank));
+  OrbitOledSetDrawMode(modOledAnd);
+
+  OrbitOledMoveTo(x, y);
+  OrbitOledFillRect(x+17, y+8);
+    OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
+  OrbitOledSetDrawMode(modOledSet);
+}
+
 void drawCircle(int x, int y, int r) {
 
   int turn = findSwitch(r);

@@ -53,7 +53,7 @@ void vcLoop(HardwareState state) {
       gameTick(state);
       break;
     case GameOver:
-      if (gameOverHeight > SCREEN_HEIGHT + 1) {
+      if (gameOverHeight > SCREEN_HEIGHT + 2) {
         setView(Start);
         delay(2000);
       }
@@ -78,13 +78,11 @@ void vcLoop(HardwareState state) {
       } else {
         OrbitOledClearBuffer();
         drawTrack(onscreen, offset);
-        if (checkCollision(lane) == 1) {
-          setView(GameOver);
-        }
       }
+      
       if (checkCollision(lane) == 1) {
-          //setView(GameOver);
-          drawCarCrash(lane);
+          setView(GameOver);
+          drawCar(lane);
       } else {
         drawCar(lane);
       }
@@ -189,6 +187,7 @@ void pauseTick(int newState) {
 void drawGameOver(int height) {
   OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
   OrbitOledSetDrawMode(modOledSet);
+  drawCarCrash(lane, height);
   OrbitOledMoveTo(SCREEN_HEIGHT, 0);
   OrbitOledFillRect(SCREEN_HEIGHT - gameOverHeight - 1, SCREEN_WIDTH);
 }
