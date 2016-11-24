@@ -98,8 +98,8 @@ void vcLoop(HardwareState state) {
       drawStart();
       break;
     case Game:
-      OrbitOledClearBuffer();
       if (paused) return;
+      OrbitOledClearBuffer();
       if ((currentTime - levelDisplayStart) < levelDisplayMillis) {
         drawLevel();
       } else {
