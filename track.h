@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Program: track.h
- * Author: Corbin Mcelhinney, Kalvin Thye
+ * Author: Corbin McElhanney, Kalvin Thye
  * Description: Header file that contains functions for creating/drawing track
  * Last Modified: November 24, 2016
  ******************************************************************************/

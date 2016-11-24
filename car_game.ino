@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Program: car_game.ino
- * Author: Corbin Mcelhinney, Kalvin Thye
+ * Author: Corbin McElhanney, Kalvin Thye
  * Description: Main program
  * Last Modified: November 24, 2016
  ******************************************************************************/

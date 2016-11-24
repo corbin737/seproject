@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Program: car.h
- * Author: Corbin Mcelhinney, Kalvin Thye
+ * Author: Corbin McElhanney, Kalvin Thye
  * Description: Header file that contains methods involving the car
  * Last Modified: November 24, 2016
  ******************************************************************************/
@@ -19,7 +19,6 @@ extern "C"
 #include <FillPat.h>
 #include "defs.h"
 
-void getCarPos(int *x, int *y, int lane);
 void drawCar(int lane);
 void drawCarCrash(int lane, int counter);
 int updateCarLaneButton(int newLeftState, int newRightState, int lane);

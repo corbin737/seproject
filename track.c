@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Program: track.c
- * Author: Corbin Mcelhinney, Kalvin Thye
+ * Author: Corbin McElhanney, Kalvin Thye
  * Description: Functions generating and drawing the track
  * Last Modified: November 24, 2016
  ******************************************************************************/
