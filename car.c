@@ -1,9 +1,9 @@
-/*******************************************************************************************
+/*******************************************************************************
  * Program: car.c
  * Author: Corbin Mcelhinney, Kalvin Thye
  * Description: Contains methods involving the car
  * Last Modified: November 24, 2016
- *******************************************************************************************/
+ ******************************************************************************/
 
 #include "car.h"
 
@@ -77,8 +77,8 @@ void drawCar(int lane) {
   OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
   OrbitOledSetDrawMode(modOledSet);
 
-  int x = TILE_HEIGHT_BORDER + CAR_HEIGHT_BUFFER;
-  int y = lane * TILE_WIDTH + TILE_WIDTH_BORDER + CAR_WIDTH_BUFFER;
+  int x = SCREEN_HEIGHT_BORDER + CAR_HEIGHT_BUFFER;
+  int y = lane * TILE_WIDTH + SCREEN_WIDTH_BORDER + CAR_WIDTH_BUFFER;
 
   OrbitOledMoveTo(x, y);
   OrbitOledPutBmp(CAR_HEIGHT, CAR_WIDTH, car);
@@ -90,8 +90,8 @@ void drawCarCrash(int lane, int tick) {
     OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
     OrbitOledSetDrawMode(modOledSet);
 
-    int x = TILE_HEIGHT_BORDER + CAR_HEIGHT_BUFFER;
-    int y = lane*TILE_WIDTH + TILE_WIDTH_BORDER + CAR_WIDTH_BUFFER;
+    int x = SCREEN_HEIGHT_BORDER + CAR_HEIGHT_BUFFER;
+    int y = lane*TILE_WIDTH + SCREEN_WIDTH_BORDER + CAR_WIDTH_BUFFER;
 
 
 
@@ -151,9 +151,9 @@ int updateCarLaneAccel(int accel) {
 
 //checks if car has crashed
 int checkCollision (int lane) {
-  int x = TILE_HEIGHT - CAR_FRONT_DETECTION + TILE_HEIGHT_BORDER;
-  int y = lane*TILE_WIDTH + TILE_WIDTH_BORDER;
-  for (int x0 = x; x0 > 0; x0 -= x + CAR_BACK_DETECTION + TILE_HEIGHT_BORDER) {
+  int x = TILE_HEIGHT - CAR_FRONT_DETECTION + SCREEN_HEIGHT_BORDER;
+  int y = lane*TILE_WIDTH + SCREEN_WIDTH_BORDER;
+  for (int x0 = x; x0 > 0; x0 -= x + CAR_BACK_DETECTION + SCREEN_HEIGHT_BORDER) {
     for (int y0 = y; y0 < y + TILE_WIDTH; y0++) {
       OrbitOledMoveTo(x0, y0);
       if (OrbitOledGetPixel() == 1) {
@@ -166,13 +166,13 @@ int checkCollision (int lane) {
 }
 
 
-/*******************************************************************************************/
-//Helper Functions:
+/******************************************************************************/
+// Helper Functions:
 
 //erases the area where the car is
 void eraseCar(int lane) {
-  int x = TILE_HEIGHT_BORDER;
-  int y = lane * TILE_WIDTH + TILE_WIDTH_BORDER;
+  int x = SCREEN_HEIGHT_BORDER;
+  int y = lane * TILE_WIDTH + SCREEN_WIDTH_BORDER;
   OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnBlank));
   OrbitOledSetDrawMode(modOledSet);
 
