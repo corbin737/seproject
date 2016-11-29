@@ -10,6 +10,7 @@
 #define CAR_WIDTH 8
 #define CAR_HEIGHT 17
 
+//buffers are to center the car in its respective tile
 const int carWidthBuffer = (TILE_WIDTH - CAR_WIDTH) / 2;
 const int carHeightBuffer = (TILE_HEIGHT - CAR_HEIGHT) / 2;
 const int carCrashDecrement = 2;
@@ -40,7 +41,7 @@ char car[] = {
   0b00111000
 };
 
-char carCrash0[] = {
+char midCarCrash[] = {
   0b01111100,
   0b11111110,
   0b11000110,
@@ -58,7 +59,7 @@ char carCrash0[] = {
   0b11111110
 };
 
-char carCrash1[] = {
+char fullCarCrash[] = {
   0b01111100,
   0b11111110,
   0b11000110,
@@ -101,12 +102,12 @@ void drawCarCrash(int lane, int tick) {
       // Draw first animation, mid crash
       eraseCar(lane);
       OrbitOledMoveTo(x + carCrashDecrement, y);
-      OrbitOledPutBmp(CAR_HEIGHT - carCrashDecrement, CAR_WIDTH, carCrash0);
+      OrbitOledPutBmp(CAR_HEIGHT - carCrashDecrement, CAR_WIDTH, midCarCrash);
     } else {
-      // Draw crashed car
+      // Draw fully crashed car
       eraseCar(lane);
       OrbitOledMoveTo(x + carCrashDecrement * 2, y);
-      OrbitOledPutBmp(CAR_HEIGHT - carCrashDecrement * 2, CAR_WIDTH, carCrash1);
+      OrbitOledPutBmp(CAR_HEIGHT - carCrashDecrement * 2, CAR_WIDTH, fullCarCrash);
     }
   }
 }
@@ -178,5 +179,5 @@ void eraseCar(int lane) {
   OrbitOledSetDrawMode(modOledSet);
 
   OrbitOledMoveTo(x, y);
-  OrbitOledFillRect(x + 17, y + 8);
+  OrbitOledFillRect(x + CAR_HEIGHT, y + CAR_WIDTH);
 }

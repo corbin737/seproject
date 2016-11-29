@@ -21,6 +21,7 @@ struct tile {
   struct tile *next;
   bool value[NUMBER_OF_LANES];
 };
+
 typedef struct tile tile;
 
 tile *trackCreate();

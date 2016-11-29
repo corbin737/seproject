@@ -17,8 +17,9 @@ typedef enum {
   Full
 } TileCreateType;
 
-// Helper function
+// Helper functions
 tile* trackPushTile(tile* oldHead, TileCreateType createType);
+void setRandomTileValue(bool val[NUMBER_OF_LANES]);
 
 // Adds a randomly generated tile to head
 tile *trackPushRandTile(tile *oldHead) {
@@ -69,33 +70,42 @@ tile *trackDelete(tile *head) {
 // Draws tiles to the screen starting at onscreen until
 // the whole screen is filled
 void drawTrack(tile *onScreen, int offset) {
-  int row = 0;
+  int row = 1;
   int tileX, tileY;
   int shift = TILE_HEIGHT - offset;
 
-  ///iterates through on screen elements and draws them on screen
-  for (tile *i = onScreen; i != NULL; i = i->next) {
+  OrbitOledSetFillPattern(OrbitOledGetStdPattern(iptnSolid));
+  OrbitOledSetDrawMode(modOledSet);
 
-    for (int column = 0; column < sizeof(i->value)/sizeof(i->value[0]); column++) {
-      tileX = SCREEN_HEIGHT - (row * TILE_HEIGHT) - TILE_HEIGHT - SCREEN_HEIGHT_BORDER;
-      tileY = column * TILE_WIDTH + SCREEN_WIDTH_BORDER;
+  // iterates through screen elements from right to left
+  for (tile *i = onScreen; i != NULL; i = i->next) {
+      tileX = SCREEN_HEIGHT - (row * TILE_HEIGHT) - SCREEN_HEIGHT_BORDER;
+
+      // When there is an offset , shifts all coordinates up as it means
+      // onscreen has changed tiles
       if (offset != 0)
         tileX += shift;
 
-      if (TILE_HEIGHT + tileX < 0) //exits if the tile is outside the leftmost screen
+      // Exits if the entire tile is out of the left bounds of the screen
+      if (TILE_HEIGHT + tileX < 0)
          break;
+    for (int column = 0; column < sizeof(i->value)/sizeof(i->value[0]); column++) {
+      tileY = column * TILE_WIDTH + SCREEN_WIDTH_BORDER;
 
-      OrbitOledMoveTo(tileX, tileY);
+      // Draws row
       if (i->value[column]) {
         OrbitOledMoveTo(tileX + barricadeHeightBuffer, tileY + barricadeWidthBuffer);
         OrbitOledDrawRect(tileX + TILE_HEIGHT - barricadeHeightBuffer, tileY + TILE_WIDTH - barricadeWidthBuffer);
-        OrbitOledMoveTo(tileX + barricadeHeightBuffer + 2, tileY + barricadeWidthBuffer + 2);
-        OrbitOledFillRect(tileX + TILE_HEIGHT - barricadeHeightBuffer - 2, tileY + TILE_WIDTH - barricadeWidthBuffer - 2);
+        OrbitOledMoveTo(tileX + barricadeHeightBuffer * 2, tileY + barricadeWidthBuffer * 2);
+        OrbitOledFillRect(tileX + TILE_HEIGHT - barricadeHeightBuffer * 2, tileY + TILE_WIDTH - barricadeWidthBuffer * 2);
       }
     }
     row++;
   }
 }
+
+/******************************************************************************/
+// Helper Functions:
 
 // Adds a tile of the given type to head
 tile* trackPushTile(tile* oldHead, TileCreateType createType) {
@@ -125,6 +135,7 @@ tile* trackPushTile(tile* oldHead, TileCreateType createType) {
 
     return newHead;
 }
+
 
 // Sets a random tile pattern
 void setRandomTileValue(bool val[NUMBER_OF_LANES]) {
