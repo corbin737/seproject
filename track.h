@@ -14,6 +14,8 @@ extern "C"
 
 #include <stdlib.h>
 #include <stdbool.h>
+#include <OrbitOled.h>
+#include <FillPat.h>
 #include "defs.h"
 
 struct tile {
