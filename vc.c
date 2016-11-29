@@ -209,12 +209,13 @@ void gameTick(int leftBtn, int rightBtn, int accel, int controlSwitch, int speed
 }
 
 // Updates pause global variable based on user input
-void pauseTick(int btn) {
+void pauseTick(int newState) {
+  // Note that LOW and HIGH are reversed for this button
   static int oldState = HIGH;
-  if (btn == LOW && oldState == HIGH) {
+  if (newState == LOW && oldState == HIGH) {
     paused = !paused;
   }
-  oldState = btn;
+  oldState = newState;
 }
 
 // Draws a frame of the GameOver view based on global variables
