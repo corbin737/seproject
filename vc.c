@@ -28,7 +28,7 @@ int levelTicks = 1200;
 
 // Game state variables
 tile *head;
-tile *onscreen;
+tile *onScreen;
 int offset;
 int lane;
 bool paused;
@@ -94,7 +94,7 @@ void vcLoop(HardwareState state) {
     switch(vcView) {
     case Start:
       OrbitOledClearBuffer();
-      drawTrack(onscreen, offset);
+      drawTrack(onScreen, offset);
       drawStart();
       break;
     case Game:
@@ -103,7 +103,7 @@ void vcLoop(HardwareState state) {
       if ((currentTime - levelDisplayStart) < levelDisplayMillis) {
         drawLevel();
       } else {
-        drawTrack(onscreen, offset);
+        drawTrack(onScreen, offset);
         if (checkCollision(lane) == 1) {
           setView(GameOver);
         }
@@ -128,7 +128,7 @@ void startInit() {
   for (int i = 0; i < NUMBER_OF_TILES + 1; i++) {
     head = trackPushFullTile(head);
   }
-  onscreen = head->next;
+  onScreen = head->next;
   offset = 0;
   tickDelay = defStartTickDelay;
 }
@@ -142,7 +142,7 @@ void gameInit() {
   for (int i = 0; i < NUMBER_OF_TILES + 1; i++) {
     head = trackPushBlankTile(head);
   }
-  onscreen = head->next;
+  onScreen = head->next;
   offset = 0;
   tickDelay = defGameTickDelay;
   level = 1;
@@ -171,7 +171,7 @@ void trackTick(tile *(*pushTile)(tile *)) {
   }
   if (offset == 1) {
     // Next tile has moved in on top of screen
-    onscreen = onscreen->prev;
+    onScreen = onScreen->prev;
   }
 }
 
@@ -209,12 +209,13 @@ void gameTick(int leftBtn, int rightBtn, int accel, int controlSwitch, int speed
 }
 
 // Updates pause global variable based on user input
-void pauseTick(int btn) {
+void pauseTick(int newState) {
+  // Note that LOW and HIGH are reversed for this button
   static int oldState = HIGH;
-  if (btn == LOW && oldState == HIGH) {
+  if (newState == LOW && oldState == HIGH) {
     paused = !paused;
   }
-  oldState = btn;
+  oldState = newState;
 }
 
 // Draws a frame of the GameOver view based on global variables

@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Program: car_game.ino
  * Author: Corbin McElhanney, Kalvin Thye
- * Description: Main program
+ * Description: Main program that calls the game loop
  * Last Modified: November 24, 2016
  ******************************************************************************/
 
@@ -16,44 +16,37 @@ static float const    SensorMaximumAccel  = 9.81 * 4.0;
 static uint8_t const  SensorAccelerometer = 0x1D;
 static float          ShakeAccumulator    = 0;
 
-void WireInit()
-{
+void WireInit() {
   orbitWire.begin();
 }
 
-void WireWriteByte(int address, uint8_t value)
-{
+void WireWriteByte(int address, uint8_t value) {
   orbitWire.beginTransmission(address);
   orbitWire.write(value);
   orbitWire.endTransmission();
 }
 
-void WireWriteRegister(int address, uint8_t reg, uint8_t value)
-{
+void WireWriteRegister(int address, uint8_t reg, uint8_t value) {
   orbitWire.beginTransmission(address);
   orbitWire.write(reg);
   orbitWire.write(value);
   orbitWire.endTransmission();
 }
 
-void WireRequestArray(int address, uint32_t* buffer, uint8_t amount)
-{
+void WireRequestArray(int address, uint32_t* buffer, uint8_t amount) {
   orbitWire.requestFrom(address, amount);
-  do
-  {
+  do {
     while(!orbitWire.available());
     *(buffer++) = orbitWire.read();
   } while(--amount > 0);
 }
 
-void ShakeInit()
-{
+void ShakeInit() {
   WireWriteRegister(SensorAccelerometer, 0x31, 1);
   WireWriteRegister(SensorAccelerometer, 0x2D, 1 << 3);
 }
 
-void ShakeTick()
-{
+void ShakeTick() {
   size_t const DataLength = 6;
   uint32_t data[DataLength] = { 0 };
 
