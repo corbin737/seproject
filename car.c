@@ -10,7 +10,7 @@
 #define CAR_WIDTH 8
 #define CAR_HEIGHT 17
 
-//buffers are to center the car in its respective tile
+// Buffers are to center the car in its respective tile
 const int carWidthBuffer = (TILE_WIDTH - CAR_WIDTH) / 2;
 const int carHeightBuffer = (TILE_HEIGHT - CAR_HEIGHT) / 2;
 const int carCrashDecrement = 2;
